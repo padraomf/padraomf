@@ -1,0 +1,16 @@
+NEW SCIENCE REGULAR EXTENDED — INCORPORADA NA V8.4
+
+Fonte enviada pelo usuário: fonnts.com-New_Science_Regular_Extended.otf.
+Família interna: New Science Extended; estilo: Regular.
+
+A fonte está incluída no pacote e é carregada diretamente pelo site. O visitante
+não precisa instalá-la. Os títulos usam peso 400, sem negrito artificial.
+
+assets/fonts/new-science-regular-extended.woff: versão web comprimida sem alterar
+os desenhos, métricas ou caracteres da fonte original (38.612 bytes).
+assets/fonts/new-science-regular-extended.otf: cópia integral do arquivo enviado.
+assets/typography.css: carregamento, títulos, Home e faixa Ideias que ganham vida.
+
+A mesma fonte é usada no título sobre os vídeos e nos dois textos da faixa entre
+Cards estáticos e Audiovisual. Arial permanece como alternativa apenas durante
+o carregamento ou caso o navegador não consiga acessar a fonte.

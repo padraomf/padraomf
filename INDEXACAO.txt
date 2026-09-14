@@ -1,0 +1,30 @@
+PADRÃO MF — INDEXAÇÃO E DOMÍNIO
+
+1. Publique o site com acesso público e HTTPS, sem exigir login.
+2. Informe o domínio real ao gerador:
+   python scripts/build-pages.py --site-url https://SEU-DOMINIO
+   Substitua SEU-DOMINIO pelo endereço que você possui; não publique esse exemplo.
+   Requer Python 3 e Pillow. Os arquivos do ZIP podem ser servidos por qualquer
+   hospedagem estática. Execute antes de subir os arquivos ao servidor.
+3. Publique novamente os HTMLs, robots.txt, sitemap.xml e a pasta assets.
+4. Na sua conta do Google Search Console, adicione a propriedade do domínio/URL,
+   confirme a propriedade e envie sitemap.xml. Não há código de verificação
+   inventado neste pacote. É necessário usar o código emitido para sua conta.
+5. Use a inspeção de URL para conferir a Home e as páginas de serviços.
+
+Quando publicada, esta edição inclui os metadados e o mapa do endereço configurado.
+O ZIP é portátil e precisa do seu domínio para gerar endereços absolutos corretos.
+O sitemap inclui somente páginas atuais, com imagens e informações de vídeo.
+Redirecionamentos de endereços antigos não são enviados no sitemap.
+Não foram inventadas datas de publicação, avaliações, endereço físico ou premiações.
+
+Acesso público, sitemap e dados estruturados ajudam na descoberta, mas não garantem
+indexação, posição nas pesquisas ou citação por uma IA. A inclusão depende de cada
+buscador. Não foi feita verificação de propriedade nem submissão em uma conta do
+Search Console nesta atualização; o robots.txt indica o sitemap ao rastreador.
+Não é necessário um arquivo especial de IA para os recursos de IA da Busca Google.
+
+Referências oficiais:
+https://developers.google.com/search/docs/appearance/ai-features
+https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap
+https://developers.google.com/search/docs/crawling-indexing/sitemaps/video-sitemaps

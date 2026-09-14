@@ -1,0 +1,119 @@
+PADRÃO MF — VERSÃO 8.4 — FONTE E HOME CONFORME REFERÊNCIAS
+
+ABRIR NO WINDOWS
+1. Extraia o ZIP inteiro em uma pasta nova.
+2. Abra INICIAR-SITE.bat. Ele usa o PowerShell e o .NET do Windows, sem alterar políticas.
+3. O navegador abre o site local. Mantenha a janela do iniciador aberta.
+4. Feche a janela quando terminar.
+O iniciador foi incluído para servir o site por HTTP, necessário para o YouTube
+identificar a página. Não foi executado em um Windows nesta sessão.
+
+MAC/LINUX
+Com Python 3 instalado, execute: python3 scripts/serve.py
+Ou use a versão publicada em sua hospedagem.
+
+DUPLO CLIQUE EM INDEX.HTML
+As artes e os vídeos MP4 locais funcionam por duplo clique. O YouTube pode recusar
+players sem identificação da página (erro 153) quando o HTML é aberto como arquivo.
+Nessa situação, use o iniciador ou a versão hospedada.
+A internet é necessária para os players do YouTube, incluindo no modo local.
+
+NESTA ATUALIZAÇÃO (8.4)
+- New Science Regular Extended enviada pelo usuário incorporada nos títulos.
+- Arquivo WOFF de 38,6 KB, com os mesmos desenhos da fonte original.
+- “SUA IDEIA.” em branco e “NOSSO PADRÃO” em verde sobre os vídeos da Home.
+- Texto centralizado junto aos vídeos no mesmo movimento de parallax.
+- Faixa “IDEIAS QUE GANHAM VIDA.” entre Cards estáticos e Audiovisual, com
+  a descrição completa em três linhas à direita, conforme o print.
+- No celular, os textos da faixa se organizam verticalmente para manter a leitura.
+- Proporções e degradê do popup da V8.3 preservados, incluindo artes sem cortes.
+- As mídias existentes foram preservadas sem recompressão.
+
+RECURSOS PRESERVADOS DA V8
+- Os cinco últimos vídeos enviados de Drone estão incluídos: 11 trabalhos de Drone.
+- Mais seis vídeos de Pocket: 9 trabalhos de Pocket e 81 trabalhos no portfólio.
+- O botão Mini player mantém o vídeo em uma janela no canto, dentro do próprio site.
+  É possível continuar rolando a página, expandir o vídeo ou fechá-lo. Esse modo não
+  é a janela nativa do sistema operacional; funciona dentro da aba do portfólio.
+- Menu com bordas neon, rolagem independente e parallax suave no fundo e na marca.
+- Compartilhar nas páginas de serviço, em cada trabalho e no player.
+  Usa o compartilhamento nativo quando disponível; caso contrário, copia o link
+  ou oferece um campo para cópia manual. Não compartilha endereços locais.
+- Prévias silenciosas de 6 segundos e vídeos completos carregados quando necessários.
+- Os 45 vídeos completos da edição anterior foram preservados.
+- Os seis vídeos novos mantêm duração e resolução; os cinco arquivos grandes foram
+  comprimidos para entrega web. O original de No ouvidinho foi apenas remultiplexado.
+  Os arquivos originais enviados permanecem preservados separadamente.
+- Galerias, textos, navegação e links vêm no HTML, inclusive sem JavaScript.
+- SEO e metadados preservados. Ao gerar com um domínio real, o sitemap inclui
+  89 páginas e 61 vídeos. A presença nos buscadores depende da indexação deles.
+- Animações respeitam a preferência de movimento reduzido do dispositivo.
+
+PARA CONFERIR OS VÍDEOS NOVOS
+Extraia este ZIP inteiro em uma pasta nova e abra o iniciador dessa pasta.
+A página Drone deve indicar 11 trabalhos; Pocket Video deve indicar 9.
+Não abra um index.html que ficou salvo em uma pasta de uma versão anterior.
+
+VERIFICAÇÃO
+media-audit.json registra formato, resolução, duração, áudio, início progressivo e
+verificação dos 102 arquivos locais de vídeo (51 completos + prévias).
+Os 12 arquivos novos foram decodificados integralmente sem erros; os anteriores
+reutilizam a verificação anterior e não tiveram seus vídeos modificados.
+Estrutura das 89 páginas, compartilhamento e alternância do mini player verificados.
+Não houve testes em aparelho físico ou medição de velocidade no navegador nesta revisão.
+Os 10 players do YouTube continuam dependendo da disponibilidade dos canais.
+
+RECURSOS PRESERVADOS DA VERSÃO 5
+- Favicon com o símbolo MF extraído da marca oficial.
+- Nove novos vídeos na página Motion Design: 15 motions e 64 trabalhos no total.
+- Abertura alterna Motion, Drone e Pocket Video continuamente, com passagem 1,5x
+  mais rápida que a versão 4 (os vídeos mantêm sua velocidade normal).
+- Setas visíveis no celular nas fileiras e na navegação entre serviços.
+- Título por extenso, com animação de entrada.
+
+RECURSOS PRESERVADOS DA VERSÃO 4
+- Players do YouTube fixos na galeria Audiovisual, com controles e prévia sem som
+  ao passar o mouse. O player permanece na página ao sair do mouse.
+- Página Sobre com o texto completo enviado, disponível no menu superior esquerdo.
+- Canal oficial: https://www.youtube.com/@PadrãoMF
+- Faixa contínua com os nove softwares e seus logotipos oficiais.
+- URLs dos trabalhos com nomes relacionados ao assunto.
+- WhatsApp usa o domínio atual da hospedagem e o projeto escolhido.
+- Stories contínuos, tema escuro e título com flicker preservados.
+A disponibilidade do vídeo e a autorização de incorporação dependem do canal.
+O navegador pode exigir um clique para reproduzir; os controles permanecem acessíveis.
+
+DOMÍNIO E LINKS
+Os links internos são relativos. Não há domínio de plataforma fixo em CONFIG.siteUrl.
+Ao hospedar, os botões WhatsApp usam automaticamente o endereço atual do seu site.
+No computador, sem domínio configurado, a mensagem inclui a identificação do projeto
+sem enviar um endereço local que outra pessoa não conseguiria abrir.
+Para um endereço público sem nome de plataforma, conecte seu próprio domínio.
+Não foi inventado ou registrado um domínio nesta atualização.
+
+COMPARTILHAMENTO E TROCA DE DOMÍNIO
+Para gerar capas de compartilhamento com seu domínio, preencha CONFIG.siteUrl em
+assets/data.js e execute scripts/build-pages.py com Python + Pillow, ou execute:
+python scripts/build-pages.py --site-url https://SEU-DOMINIO
+Substitua SEU-DOMINIO pelo endereço real. Publique novamente todos os HTMLs e assets.
+Metadados no pacote portátil usam caminhos relativos até o domínio ser configurado.
+O sitemap.xml só é gerado depois de informar um domínio real; o pacote não fixa
+um endereço de plataforma. Veja INDEXACAO.txt antes de publicar em outro domínio.
+A página precisa estar pública para leitores de prévias de WhatsApp e outras redes.
+Cada plataforma escolhe qual das imagens declaradas exibir.
+
+ARQUIVOS
+index.html: Home no pacote baixado; no projeto-fonte, as páginas ficam em dist.
+sobre.html: Sobre a Padrão MF.
+assets/data.js: projetos, caminhos e contatos.
+assets/site.css: aparência.
+assets/app.js: navegação e contato.
+assets/youtube-player.js: players incorporados e controle de prévias.
+scripts/build-pages.py: geração dos HTMLs e das imagens de compartilhamento.
+scripts/software-sources.json: fontes oficiais dos logotipos.
+Páginas antigas de projetos redirecionam para os novos nomes para preservar links anteriores.
+
+DEPENDÊNCIA DE ROLAGEM
+Lenis 1.3.26, licença MIT. Arquivos e licença em assets/vendor.
+Fonte: https://github.com/darkroomengineering/lenis
+assets/scroll-effects.js e assets/scroll-effects.css: rolagem, header e efeitos.

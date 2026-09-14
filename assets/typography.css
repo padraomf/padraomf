@@ -1,0 +1,104 @@
+/* New Science Regular Extended, from the font file supplied for this project.
+   WOFF contains the same outlines and glyphs as the original OTF. */
+@font-face{
+  font-family:'MF New Science';
+  src:url('fonts/new-science-regular-extended.woff') format('woff'),
+      url('fonts/new-science-regular-extended.otf') format('opentype');
+  font-style:normal;
+  font-weight:400;
+  font-display:swap;
+}
+:root{--font-title:'MF New Science',Arial,sans-serif}
+h1,h2,h3,.showcase-caption{
+  font-family:var(--font-title)!important;
+  font-weight:400!important;
+  font-style:normal;
+  font-synthesis:none;
+  letter-spacing:0!important;
+  overflow-wrap:anywhere;
+}
+
+/* The title and stories share one parallax layer, with captions below the title. */
+.showcase{padding-bottom:8px}
+.showcase-window{padding:18px 0;min-height:280px}
+.showcase-title-layer{
+  position:absolute;
+  inset:18px 0;
+  z-index:7;
+  display:grid;
+  place-items:center;
+  padding:0 20px;
+  pointer-events:none;
+}
+.showcase-caption{
+  margin:0;
+  padding:0;
+  max-width:100%;
+  text-align:center;
+  font-size:clamp(20px,min(7.5vw,calc(2.5vw + 19px)),64px);
+  line-height:1.16;
+  text-transform:uppercase;
+  color:#fff;
+  text-shadow:0 2px 18px #0006;
+  overflow-wrap:normal;
+}
+.showcase-caption .title-intro,.showcase-caption .title-main{
+  display:block!important;
+  font-family:inherit;
+  font-weight:400!important;
+  letter-spacing:0;
+  white-space:nowrap;
+  text-shadow:inherit;
+}
+.showcase-caption .title-main{margin-top:.13em;color:#00ec80}
+.showcase-caption::after{display:none}
+.showcase-bottom{
+  margin:0 var(--gutter) 28px;
+  padding:8px 0 0;
+  border:0;
+  justify-content:flex-end;
+  align-items:center;
+  gap:0;
+}
+.showcase-bottom .carousel-toggle{margin:0}
+.section-name{min-width:0}
+.service-heading h1,.detail-info h1{line-height:1.12;letter-spacing:0}
+.section-name h2,.work-title,.software-heading h2{letter-spacing:0;line-height:1.2}
+
+/* The two-column statement between Cards estáticos and Audiovisual. */
+.ideas-banner{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:clamp(24px,3.2vw,50px);
+  padding:clamp(54px,6vw,90px) var(--gutter);
+  margin:12px 0 48px;
+  background:#000;
+  text-transform:uppercase;
+}
+.ideas-banner h2{
+  margin:0;
+  text-align:right;
+  color:#16b477;
+  font-size:clamp(24px,3vw,42px);
+  line-height:1.22;
+}
+.ideas-banner p{
+  margin:0;
+  color:#f5f5f5;
+  font-family:var(--font-title);
+  font-weight:400;
+  font-synthesis:none;
+  font-size:clamp(14px,1.8vw,25px);
+  line-height:1.38;
+}
+.ideas-banner span{display:block;white-space:nowrap}
+@media(max-width:720px){
+  .ideas-banner{flex-direction:column;gap:22px;padding-block:52px;margin-bottom:32px}
+  .ideas-banner h2{text-align:center;font-size:clamp(24px,5.5vw,36px)}
+  .ideas-banner p{font-size:clamp(13px,3.7vw,20px);text-align:center}
+}
+@media(max-width:640px){
+  .showcase-window{min-height:0}
+  .showcase-bottom{margin-bottom:22px}
+}

@@ -1,0 +1,47 @@
+[
+  {
+    "slug": "photoshop",
+    "name": "Photoshop",
+    "path": "assets/software/adobe-photoshop.svg"
+  },
+  {
+    "slug": "after-effects",
+    "name": "After Effects",
+    "path": "assets/software/adobe-after-effects.svg"
+  },
+  {
+    "slug": "premiere-pro",
+    "name": "Premiere Pro",
+    "path": "assets/software/adobe-premiere-pro.svg"
+  },
+  {
+    "slug": "lightroom",
+    "name": "Lightroom",
+    "path": "assets/software/adobe-lightroom.svg"
+  },
+  {
+    "slug": "davinci-resolve",
+    "name": "DaVinci Resolve",
+    "path": "assets/software/davinci-resolve-192.png"
+  },
+  {
+    "slug": "capcut",
+    "name": "CapCut",
+    "path": "assets/software/capcut.png"
+  },
+  {
+    "slug": "higgsfield",
+    "name": "Higgsfield",
+    "path": "assets/software/higgsfield.svg"
+  },
+  {
+    "slug": "google-flow",
+    "name": "Google Flow",
+    "path": "assets/software/google-flow-white.png"
+  },
+  {
+    "slug": "firefly",
+    "name": "Adobe Firefly",
+    "path": "assets/software/adobe-firefly.svg"
+  }
+]

@@ -1,0 +1,56 @@
+[
+  {
+    "slug": "photoshop",
+    "name": "Adobe Photoshop",
+    "path": "assets/software/adobe-photoshop.svg",
+    "source": "https://www.adobe.com/cc-shared/assets/img/product-icons/svg/photoshop-40.svg"
+  },
+  {
+    "slug": "after-effects",
+    "name": "Adobe After Effects",
+    "path": "assets/software/adobe-after-effects.svg",
+    "source": "https://www.adobe.com/cc-shared/assets/img/product-icons/svg/after-effects-40.svg"
+  },
+  {
+    "slug": "premiere-pro",
+    "name": "Adobe Premiere Pro",
+    "path": "assets/software/adobe-premiere-pro.svg",
+    "source": "https://www.adobe.com/cc-shared/assets/img/product-icons/svg/premiere-pro.svg"
+  },
+  {
+    "slug": "lightroom",
+    "name": "Adobe Lightroom",
+    "path": "assets/software/adobe-lightroom.svg",
+    "source": "https://www.adobe.com/cc-shared/assets/img/product-icons/svg/lightroom.svg"
+  },
+  {
+    "slug": "davinci-resolve",
+    "name": "DaVinci Resolve",
+    "path": "assets/software/davinci-resolve-192.png",
+    "source": "https://downloads.blackmagicdesign.com/press/press-images/davinci-resolve-logo/20190201-49f164/DaVinci-Resolve-Logo.zip"
+  },
+  {
+    "slug": "capcut",
+    "name": "CapCut",
+    "path": "assets/software/capcut.png",
+    "source": "https://sf16-web-tos-buz.capcutstatic.com/obj/capcut-web-buz-sg/common/images/lv_web-2.ico"
+  },
+  {
+    "slug": "higgsfield",
+    "name": "Higgsfield",
+    "path": "assets/software/higgsfield.svg",
+    "source": "https://higgsfield.ai/"
+  },
+  {
+    "slug": "google-flow",
+    "name": "Google Flow",
+    "path": "assets/software/google-flow-white.png",
+    "source": "https://www.gstatic.com/aitestkitchen/website/flow/favicon/flow_favicon_w.png"
+  },
+  {
+    "slug": "firefly",
+    "name": "Adobe Firefly",
+    "path": "assets/software/adobe-firefly.svg",
+    "source": "https://www.adobe.com/cc-shared/assets/img/firefly.svg"
+  }
+]

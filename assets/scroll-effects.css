@@ -1,0 +1,43 @@
+/* Fixed navigation retains its original space to avoid jumps while it shrinks. */
+body{padding-top:112px}
+html{scroll-padding-top:88px}
+html.lenis{scroll-behavior:auto!important}
+.header{position:fixed;inset:0 0 auto;z-index:30;height:112px;background:#020303ec;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);transition:height .3s ease,background .3s ease,box-shadow .3s ease}
+.header .logo img{transition:width .3s ease,height .3s ease}
+.header .menu-button,.header .header-right{transition:opacity .22s ease,transform .3s ease,visibility .22s ease}
+.header.header--compact{height:64px;background:#020303dc;box-shadow:0 8px 32px #0006}
+.header.header--compact .logo img{width:164px;height:54px}
+.header.header--compact::after{background:linear-gradient(90deg,transparent,#1ce58e48,transparent)}
+.header.header--compact:not(:focus-within) .menu-button,.header.header--compact:not(:focus-within) .header-right{opacity:0;visibility:hidden;pointer-events:none;transform:translateY(-6px)}
+.header:focus-within .menu-button,.header:focus-within .header-right{opacity:1;visibility:visible;pointer-events:auto}
+
+/* Each scene stays in native document flow; only its visual layer moves. */
+.scroll-reveal{transform:translateY(var(--scene-shift,0px));filter:blur(var(--scene-blur,0px));opacity:var(--scene-opacity,1)}
+.scroll-reveal.scene-near{will-change:transform,filter,opacity}
+.scroll-reveal .shelf-heading{transform:translateY(var(--scene-depth,0px))}
+.scroll-reveal:focus-within{filter:none;opacity:1}
+
+/* Neon remains tied to an interactive work or service. */
+@media(hover:hover){
+  .card:hover .card-art,.work-item:hover .card-art,.audiovisual-item .youtube-shell:hover{border-color:#55ffb0;box-shadow:0 0 0 1px #1ce58ee6,0 0 20px #1ce58e66,0 0 42px #1ce58e24,inset 0 0 10px #1ce58e18}
+  .service-nav a:hover{border-color:#55ffb0;box-shadow:0 0 14px #1ce58e4d,inset 0 0 8px #1ce58e12}
+}
+.card:focus-visible .card-art,.service-nav a:focus-visible,.youtube-shell:focus-within{border-color:#55ffb0;box-shadow:0 0 0 1px #1ce58e,0 0 22px #1ce58e66}
+@media(max-width:640px){
+  body{padding-top:88px}
+  .header{height:88px}
+  .header.header--compact{height:56px}
+  .header.header--compact .logo img{width:145px;height:48px}
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto!important}
+  .scroll-reveal,.scroll-reveal .shelf-heading{transform:none!important;filter:none!important;opacity:1!important;will-change:auto}
+  .header,.header .logo img,.header .menu-button,.header .header-right{transition:none!important}
+}
+
+/* Finger selection receives the same visual emphasis as hover. */
+.card.is-touch-selected .card-art{border-color:#55ffb0;box-shadow:0 0 0 1px #1ce58e,0 0 18px #1ce58e60}
+.card.is-touch-selected{transform:scale(1.025);z-index:2}
+.track,.service-nav{touch-action:pan-x pan-y pinch-zoom}
+.card-art img,.card-preview,.preview-badge{pointer-events:none}
+@media(prefers-reduced-motion:reduce){.card.is-touch-selected{transform:none}}
