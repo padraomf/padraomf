@@ -1,3 +1,3 @@
-User-agent: *
+﻿User-agent: *
 Allow: /
-Sitemap: https://padraomf.com/sitemap.xml
+Sitemap: https://www.padraomf.com/sitemap.xml
