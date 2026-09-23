@@ -11,10 +11,10 @@ from PIL import Image
 
 root = Path(__file__).resolve().parents[1]
 dist = root if (root / 'assets/data.js').is_file() else root / 'dist'
-data = (dist / 'assets/data.js').read_text()
+data = (dist / 'assets/data.js').read_text(encoding='utf-8')
 categories = json.loads(re.search(r'const CATEGORIES = (\[.*?\]);', data, re.S)[1])
-projects = json.loads(re.search(r'const PROJECTS = (\[.*?\]);', data, re.S)[1])
-assets = json.loads(re.search(r'/\* ASSETS_START \*/\s*(\{.*?\})', data, re.S)[1])
+projects = json.loads(re.search(r'const PROJECTS = \/\* PROJECTS_START \*\/\s*(\[.*?\])\s*\/\* PROJECTS_END \*\/;', data, re.S)[1])
+assets = json.loads(re.search(r'/\* ASSETS_START \*/\s*(\{.*?\})\s*/\* ASSETS_END \*/', data, re.S)[1])
 parser = argparse.ArgumentParser()
 parser.add_argument('--site-url', default=None, help='Public domain for sharing metadata')
 args = parser.parse_args()
@@ -23,7 +23,7 @@ if origin and (urlparse(origin).scheme not in ('https','http') or not urlparse(o
     parser.error('--site-url precisa ser um endereço público completo')
 if origin and not origin.endswith('/'):
     origin += '/'
-software = json.loads((dist / 'assets/software/catalog.json').read_text())
+software = json.loads((dist / 'assets/software/catalog.json').read_text(encoding='utf-8'))
 arrow = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg>'
 instagram = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/></svg>'
 youtube = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="4"/><path d="m10 9 5 3-5 3Z"/></svg>'
@@ -223,7 +223,7 @@ home = '''<main>
     <section class="showcase" id="showcase" aria-labelledby="showcase-title">
       <div class="showcase-window">
         <div class="showcase-track" id="showcase-track" aria-hidden="true"></div>
-        <div class="showcase-title-layer"><h1 class="showcase-caption" id="showcase-title"><span class="title-intro">Sua ideia.</span> <strong class="title-main">Nosso Padrão</strong></h1></div>
+        <div class="showcase-title-layer"><h1 class="showcase-caption" id="showcase-title"><span class="title-intro">Sua ideia.</span> <strong class="title-main">Nosso Padrão.</strong><span class="title-sub" style="display:block; font-size:clamp(0.9rem, 2vw, 1.2rem); margin-top:15px; font-weight:400; letter-spacing:0.05em; opacity:0.9;">Designer, Motion e Audio Visual!</span></h1></div>
       </div>
       <div class="showcase-bottom"><button class="carousel-toggle" id="carousel-toggle" aria-controls="showcase-track" aria-pressed="false" aria-label="Pausar apresentação dos trabalhos"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14M16 5v14"/></svg><span>Pausar</span></button></div>
     </section>
@@ -231,7 +231,7 @@ home = '''<main>
     <noscript>Abra um trabalho para assistir ao vídeo completo. <a href="https://wa.me/5574999204407">Fale conosco no WhatsApp.</a></noscript>
   </main>'''
 home=home.replace('<div id="shelves"></div>','<div id="shelves">'+''.join(shelf_markup(c,i) for i,c in enumerate(categories,1))+'</div>')
-(dist / 'index.html').write_text(page(home))
+(dist / 'index.html').write_text(page(home), encoding='utf-8')
 for index, category in enumerate(categories, 1):
     count = sum(p['category'] == category['id'] for p in projects)
     contact = whatsapp(category)
@@ -252,7 +252,7 @@ for index, category in enumerate(categories, 1):
     <section class="service-grid {category['shape']}" id="service-grid" aria-label="Todos os trabalhos de {escape(category['name'], quote=True)}">{grid_content}</section>
     <noscript>Abra um trabalho para ver todos os detalhes. <a href="https://wa.me/5574999204407">Fale conosco no WhatsApp.</a></noscript>
   </main>'''
-    (dist / category['path']).write_text(page(main, category['id']))
+    (dist / category['path']).write_text(page(main, category['id']), encoding='utf-8')
 
 for p in projects:
     category=category_for(p)
@@ -270,13 +270,13 @@ for p in projects:
       </article>
       <nav class="service-nav" id="service-nav" aria-label="Outros serviços">{service_links(category['id'])}</nav>
     </main>'''
-    (dist / project_path(p)).write_text(page(main, category['id'], p))
+    (dist / project_path(p)).write_text(page(main, category['id'], p), encoding='utf-8')
 about_main='''<main id="portfolio" class="about-page"><a class="breadcrumb" href="index.html">← Voltar ao portfólio</a><section class="about-intro"><div class="eyebrow">Design + Audiovisual</div><h1>Sobre a<br><strong>Padrão MF.</strong></h1><span class="about-experience">Mais de 10 anos transformando ideias.</span></section><div class="about-copy"><p>A Padrão MF é uma empresa especializada em design gráfico e produção audiovisual, com mais de 10 anos de experiência no mercado. Trabalhamos com criação de artes, motion design, edição de vídeos, inteligência artificial e soluções visuais para empresas, marcas, artistas e eventos.</p><p>Realizamos gravação e produção de vídeos promocionais, vídeos institucionais e corporativos, cobertura audiovisual de eventos, produção de EPs visuais e conteúdos para redes sociais. Também desenvolvemos projetos criativos utilizando inteligência artificial para potencializar a qualidade, inovação e impacto de cada produção.</p><p>Na Padrão MF, transformamos ideias em conteúdos visuais profissionais, criativos e estratégicos, ajudando marcas, empresas e artistas a se destacarem através do design e do audiovisual.</p></div><a class="button button-green" ''' + whatsapp() + '''>Vamos conversar sobre seu projeto ↗</a></main>'''
-(dist / 'sobre.html').write_text(page(about_main,about=True))
+(dist / 'sobre.html').write_text(page(about_main,about=True), encoding='utf-8')
 # Preserve previously issued addresses while linking new pages by their subjects.
 for p in projects:
     old=dist / ('projeto-'+p['id']+'.html')
-    old.write_text(f'<!doctype html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="robots" content="noindex"><meta http-equiv="refresh" content="0;url={p["path"]}"><title>{escape(p["title"])}</title></head><body><a href="{p["path"]}">Abrir {escape(p["title"])}</a></body></html>')
+    old.write_text(f'<!doctype html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="robots" content="noindex"><meta http-equiv="refresh" content="0;url={p["path"]}"><title>{escape(p["title"])}</title></head><body><a href="{p["path"]}">Abrir {escape(p["title"])}</a></body></html>', encoding='utf-8')
 print(f'Generated home, About, {len(categories)} service pages and {len(projects)} project pages with individual sharing metadata.')
 
 # Only real public origins belong in XML sitemaps. Rebuild after changing domains.
@@ -298,4 +298,4 @@ if origin:
     robots+='\nSitemap: '+urljoin(origin,'sitemap.xml')+'\n'
 else:
     (dist/'sitemap.xml').unlink(missing_ok=True)
-(dist/'robots.txt').write_text(robots)
+(dist/'robots.txt').write_text(robots, encoding='utf-8')

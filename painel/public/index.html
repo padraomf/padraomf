@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel Padrão MF</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <h1>Painel Padrão MF</h1>
+      <button class="btn-publish" onclick="publish()">Publicar no GitHub</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="add-section">
+      <h2>Adicionar Novo Trabalho</h2>
+      <form id="uploadForm">
+        <div class="form-group">
+          <label>Título do Projeto</label>
+          <input type="text" name="title" required placeholder="Ex: O duo perfeito">
+        </div>
+        
+        <div class="form-group">
+          <label>Categoria</label>
+          <select name="category" id="categorySelect" required>
+            <!-- Preenchido via JS -->
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Tipo (Ex: Produto + IA)</label>
+          <input type="text" name="type" required placeholder="Ex: Produto + IA">
+        </div>
+
+        <div class="form-group">
+          <label>Descrição</label>
+          <textarea name="description" required rows="3"></textarea>
+        </div>
+
+        <div class="form-group file-group">
+          <label>Arquivo de Vídeo (Opcional, será comprimido)
+            <input type="file" name="video" accept="video/mp4,video/quicktime,video/webm">
+          </label>
+        </div>
+
+        <div class="form-group file-group">
+          <label>Imagem de Capa (Opcional se enviar vídeo)
+            <input type="file" name="thumb" accept="image/webp,image/png,image/jpeg">
+          </label>
+        </div>
+
+        <button type="submit" class="btn-submit" id="submitBtn">Adicionar Trabalho (Compressão pode demorar)</button>
+      </form>
+    </section>
+
+    <section class="list-section">
+      <h2>Gerenciar Trabalhos</h2>
+      <p>Arraste para reordenar os itens dentro da mesma categoria. O primeiro da lista é o que aparece no topo da Home e da página de serviço correspondente.</p>
+      <button class="btn-save" onclick="saveOrder()">Salvar Nova Ordem</button>
+      
+      <div id="categoriesContainer">
+        <!-- Preenchido via JS -->
+      </div>
+    </section>
+  </main>
+
+  <!-- Modal Loading -->
+  <div class="modal" id="loadingModal">
+    <div class="modal-content">
+      <div class="spinner"></div>
+      <p id="loadingMsg">Processando...</p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -6,7 +6,8 @@
     siteUrl: "",
     mensagemWhatsApp: "Olá! Vi o portfólio da Padrão MF e gostaria de conversar sobre um projeto."
   };
-  const ASSETS = /* ASSETS_START */ {
+  const ASSETS = /* ASSETS_START */
+{
   "logo": "assets/logo-oficial.png",
   "hero": "assets/hero.webp",
   "static01": "assets/static-01.webp",
@@ -89,8 +90,11 @@
   "pocket-oh-vaqueiro": "assets/pocket-oh-vaqueiro.webp",
   "pocket-vamos-vaqueiro-performance": "assets/pocket-vamos-vaqueiro-performance.webp",
   "pocket-no-ouvidinho": "assets/pocket-no-ouvidinho.webp",
-  "pocket-cachaca": "assets/pocket-cachaca.webp"
-} /* ASSETS_END */;
+  "pocket-cachaca": "assets/pocket-cachaca.webp",
+  "asset-1790198880672": "assets/p-1790198880672.webp",
+  "asset-1790198958182": "assets/p-1790198958182.webp"
+}
+/* ASSETS_END */;
   const CATEGORIES = [
   {
     "id": "ia",
@@ -141,7 +145,20 @@
     "description": "Vídeos verticais que aproximam artistas, marcas e público."
   }
 ];
-  const PROJECTS = [
+  const PROJECTS = /* PROJECTS_START */
+[
+  {
+    "id": "proj-1790198958182",
+    "category": "motion",
+    "title": "Semanal Desejo de Menina",
+    "asset": "asset-1790198958182",
+    "type": "Motion",
+    "description": "Agenda semanal de shows de Desejo de Menina usando AfterEcefs + IA",
+    "video": "assets/p-1790198958182.mp4",
+    "preview": "assets/p-1790198958182-preview.mp4",
+    "demo": false,
+    "path": "semanal-desejo-de-menina-1790198958182.html"
+  },
   {
     "id": "ia-feliz-pascoa",
     "category": "ia",
@@ -1104,4 +1121,5 @@
     "youtubeChannel": "Matheus Do Acordeon Oficial",
     "path": "mix-de-sucessos.html"
   }
-];
+]
+/* PROJECTS_END */;
