@@ -1,0 +1,8 @@
+{
+  "routes": [
+    { "src": "/(?:painel|scripts)(?:/.*)?", "status": 404 },
+    { "src": "/(?:ABRIR-PAINEL\\.bat|INICIAR-SITE\\.bat|INDEXACAO\\.txt)", "status": 404 },
+    { "handle": "filesystem" },
+    { "src": "/.*", "status": 404 }
+  ]
+}

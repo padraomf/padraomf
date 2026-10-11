@@ -1,10 +1,23 @@
 let currentProjects = [];
 
 let currentCategories = [];
+let panelToken = '';
+
+async function request(url, options = {}) {
+  const response = await fetch(url, { ...options, headers: { ...options.headers, 'X-Panel-Token': panelToken } });
+  const data = await response.json();
+  if (!response.ok) throw new Error(data.error || 'Não foi possível concluir a operação.');
+  return data;
+}
+
+async function operation(message, handler) {
+  showLoading(message);
+  try { await handler(); } catch (error) { alert(error.message || 'Falha de conexão. Tente novamente.'); }
+  finally { hideLoading(); }
+}
 
 async function loadData() {
-  const res = await fetch('/api/data');
-  const data = await res.json();
+  const data = await request('/api/data');
   
   // Fill Categories
   const catSelect = document.getElementById('categorySelect');
@@ -30,7 +43,9 @@ function renderProjects() {
       if(catProjects.length === 0) return;
       
       const catDiv = document.createElement('div');
-      catDiv.innerHTML = `<h3>${cat.name}</h3>`;
+      const heading = document.createElement('h3');
+      heading.textContent = cat.name;
+      catDiv.appendChild(heading);
       
       const ul = document.createElement('ul');
       ul.className = 'projects-list';
@@ -42,10 +57,15 @@ function renderProjects() {
         li.dataset.id = p.id;
         li.draggable = true;
         
-        li.innerHTML = `
-          <span><strong>${p.title}</strong></span>
-          <button class="btn-del" onclick="deleteProject('${p.id}')">Excluir</button>
-        `;
+        const span = document.createElement('span');
+        const strong = document.createElement('strong');
+        strong.textContent = p.title;
+        span.appendChild(strong);
+        const button = document.createElement('button');
+        button.className = 'btn-del';
+        button.textContent = 'Excluir';
+        button.addEventListener('click', () => deleteProject(p.id));
+        li.append(span, button);
         
         li.addEventListener('dragstart', handleDragStart);
         li.addEventListener('dragover', handleDragOver);
@@ -97,25 +117,25 @@ async function saveOrder() {
   const items = [...document.querySelectorAll('.project-item')];
   const newOrderIds = items.map(li => li.dataset.id);
   
-  showLoading('Salvando ordem e gerando site...');
-  
-  await fetch('/api/projects/reorder', {
+  await operation('Salvando ordem e gerando site...', async () => {
+  await request('/api/projects/reorder', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ newOrderIds })
   });
   
-  hideLoading();
+  await loadData();
   alert('Ordem atualizada com sucesso! Verifique a Home.');
+  });
 }
 
 async function deleteProject(id) {
   if(!confirm('Tem certeza que deseja apagar este trabalho?')) return;
   
-  showLoading('Apagando projeto e atualizando site...');
-  await fetch('/api/projects/' + id, { method: 'DELETE' });
+  await operation('Apagando projeto e atualizando site...', async () => {
+  await request('/api/projects/' + encodeURIComponent(id), { method: 'DELETE' });
   await loadData();
-  hideLoading();
+  });
 }
 
 document.getElementById('uploadForm').addEventListener('submit', async (e) => {
@@ -123,37 +143,26 @@ document.getElementById('uploadForm').addEventListener('submit', async (e) => {
   const form = e.target;
   const formData = new FormData(form);
   
-  showLoading('Enviando e Comprimindo Vídeo... Isso pode demorar bastante (não feche a página)!');
+  await operation('Processando o trabalho... Aguarde e mantenha a página aberta.', async () => {
   
-  const res = await fetch('/api/upload', {
+  await request('/api/upload', {
     method: 'POST',
     body: formData
   });
   
-  hideLoading();
-  
-  if (res.ok) {
     form.reset();
     alert('Trabalho adicionado com sucesso! Site atualizado localmente.');
     await loadData();
-  } else {
-    const err = await res.json();
-    alert('Erro: ' + err.error);
-  }
+  });
 });
 
 async function publish() {
   if(!confirm('Isso vai publicar as alterações locais no GitHub (e na Vercel). Deseja continuar?')) return;
   
-  showLoading('Publicando na internet (GitHub/Vercel)...');
-  const res = await fetch('/api/publish', { method: 'POST' });
-  hideLoading();
-  
-  if (res.ok) {
-    alert('Site publicado com sucesso! Em cerca de 1 minuto ele estará no ar na Vercel.');
-  } else {
-    alert('Houve um erro na publicação.');
-  }
+  await operation('Enviando alterações e verificando a publicação...', async () => {
+    const result = await request('/api/publish', { method: 'POST' });
+    alert(result.message);
+  });
 }
 
 function showLoading(msg) {
@@ -166,4 +175,7 @@ function hideLoading() {
 }
 
 // Inicializar
-loadData();
+operation('Carregando painel...', async () => {
+  panelToken = (await request('/api/session')).token;
+  await loadData();
+});
