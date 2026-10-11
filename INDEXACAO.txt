@@ -1,19 +1,23 @@
 PADRÃO MF — INDEXAÇÃO E DOMÍNIO
 
 1. Publique o site com acesso público e HTTPS, sem exigir login.
-2. Informe o domínio real ao gerador:
-   python scripts/build-pages.py --site-url https://SEU-DOMINIO
-   Substitua SEU-DOMINIO pelo endereço que você possui; não publique esse exemplo.
+2. O domínio está salvo em CONFIG.siteUrl, em assets/data.js:
+   https://www.padraomf.com/
+   Gere as páginas com python scripts/build-pages.py, como faz o painel.
+   Ao mudar de domínio, atualize CONFIG.siteUrl antes de gerar e publicar.
+   --site-url permite uma substituição pontual, sem mudar a configuração salva.
+   O gerador recusa domínio vazio antes de escrever páginas.
    Requer Python 3 e Pillow. Os arquivos do ZIP podem ser servidos por qualquer
    hospedagem estática. Execute antes de subir os arquivos ao servidor.
 3. Publique novamente os HTMLs, robots.txt, sitemap.xml e a pasta assets.
 4. Na sua conta do Google Search Console, adicione a propriedade do domínio/URL,
-   confirme a propriedade e envie sitemap.xml. Não há código de verificação
-   inventado neste pacote. É necessário usar o código emitido para sua conta.
+   confirme a propriedade e envie https://www.padraomf.com/sitemap.xml.
+   CONFIG.googleSiteVerification preserva o código real encontrado no histórico
+   deste projeto. Ele é incluído pelo gerador para não desaparecer ao usar o painel.
 5. Use a inspeção de URL para conferir a Home e as páginas de serviços.
 
 Quando publicada, esta edição inclui os metadados e o mapa do endereço configurado.
-O ZIP é portátil e precisa do seu domínio para gerar endereços absolutos corretos.
+O domínio salvo é usado para gerar endereços absolutos em cada atualização.
 O sitemap inclui somente páginas atuais, com imagens e informações de vídeo.
 Redirecionamentos de endereços antigos não são enviados no sitemap.
 Não foram inventadas datas de publicação, avaliações, endereço físico ou premiações.
@@ -22,6 +26,8 @@ Acesso público, sitemap e dados estruturados ajudam na descoberta, mas não gar
 indexação, posição nas pesquisas ou citação por uma IA. A inclusão depende de cada
 buscador. Não foi feita verificação de propriedade nem submissão em uma conta do
 Search Console nesta atualização; o robots.txt indica o sitemap ao rastreador.
+O endereço /_/view/prefs não é uma página do portfólio e deve responder 404.
+Páginas antigas com redirecionamento ficam fora do sitemap; não precisam ser indexadas.
 Não é necessário um arquivo especial de IA para os recursos de IA da Busca Google.
 
 Referências oficiais:

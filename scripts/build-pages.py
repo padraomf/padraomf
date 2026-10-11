@@ -19,10 +19,12 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--site-url', default=None, help='Public domain for sharing metadata')
 args = parser.parse_args()
 origin = args.site_url if args.site_url is not None else re.search(r'siteUrl:\s*"([^"]*)"', data)[1]
-if origin and (urlparse(origin).scheme not in ('https','http') or not urlparse(origin).netloc):
-    parser.error('--site-url precisa ser um endereço público completo')
-if origin and not origin.endswith('/'):
+if not origin or urlparse(origin).scheme not in ('https','http') or not urlparse(origin).netloc:
+    parser.error('Configure siteUrl em assets/data.js ou informe --site-url com o domínio público completo. Nenhuma página foi alterada.')
+if not origin.endswith('/'):
     origin += '/'
+verification_match = re.search(r'googleSiteVerification:\s*("(?:[^"\\]|\\.)*")', data)
+verification = json.loads(verification_match[1]) if verification_match else ''
 software = json.loads((dist / 'assets/software/catalog.json').read_text(encoding='utf-8'))
 arrow = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg>'
 instagram = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/></svg>'
@@ -65,7 +67,7 @@ def metadata(title, description, path, records):
             f'<meta property="og:title" content="{e(title)}">',
             f'<meta property="og:description" content="{e(description)}">',
             f'<meta property="og:url" content="{e(url)}">',
-            f'<meta name="twitter:card" content="{"summary_large_image" if records else "summary"}">',
+            '<meta name="twitter:card" content="summary_large_image">',
             f'<meta name="twitter:title" content="{e(title)}">',
             f'<meta name="twitter:description" content="{e(description)}">']
     for i,p in enumerate(records):
@@ -79,6 +81,19 @@ def metadata(title, description, path, records):
         if i==0:
             tags += [f'<meta name="twitter:image" content="{e(image_url)}">',
                      f'<meta name="twitter:image:alt" content="{e(p["title"])}">']
+    if not records:
+        with Image.open(dist / assets['logo']) as im:
+            width, height = im.size
+        image_url = urljoin(origin, assets['logo'])
+        tags += [f'<meta property="og:image" content="{e(image_url)}">',
+                 '<meta property="og:image:type" content="image/png">',
+                 f'<meta property="og:image:width" content="{width}">',
+                 f'<meta property="og:image:height" content="{height}">',
+                 '<meta property="og:image:alt" content="Padrão MF">',
+                 f'<meta name="twitter:image" content="{e(image_url)}">',
+                 '<meta name="twitter:image:alt" content="Padrão MF">']
+    if verification:
+        tags.append(f'<meta name="google-site-verification" content="{e(verification)}">')
     return '\n  '.join(tags)
 
 share_icon='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3m-4 4 4-4 4 4M5 12v8h14v-8"/></svg>'
@@ -141,8 +156,8 @@ def youtube_markup(p, hover=False):
 
 def page(main, service='', project=None, about=False):
     category = next((c for c in categories if c['id'] == service), None)
-    title = f'{project["title"]} — Padrão MF' if project else f'{category["name"]} — Padrão MF' if category else 'Padrão MF — Sua ideia, nosso Padrão'
-    description = project['description'] if project else category['description'] if category else 'Design, motion, inteligência artificial, audiovisual, drone e pocket video. Conheça os trabalhos da Padrão MF.'
+    title = f'{project["title"]} — Padrão MF' if project else f'{category["name"]} — Padrão MF' if category else 'Padrão MF | Design Gráfico, Streaming e Audiovisual'
+    description = project['description'] if project else category['description'] if category else 'Design gráfico, motion, inteligência artificial, streaming, audiovisual, drone e pocket video. Conheça os trabalhos da Padrão MF.'
     path = project_path(project) if project else category['path'] if category else 'index.html'
     if about:
         title='Sobre a Padrão MF'

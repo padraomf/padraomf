@@ -3,7 +3,8 @@
     email: "",
     instagram: "https://www.instagram.com/padraomf/",
     youtube: "https://www.youtube.com/@PadrãoMF",
-    siteUrl: "",
+    siteUrl: "https://www.padraomf.com/",
+    googleSiteVerification: "cvEnGj0U_QsBUJPOaDhMFcwVWNVuIewAiY-poTq-0kc",
     mensagemWhatsApp: "Olá! Vi o portfólio da Padrão MF e gostaria de conversar sobre um projeto."
   };
   const ASSETS = /* ASSETS_START */
