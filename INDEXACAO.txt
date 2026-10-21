@@ -34,3 +34,13 @@ Referências oficiais:
 https://developers.google.com/search/docs/appearance/ai-features
 https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap
 https://developers.google.com/search/docs/crawling-indexing/sitemaps/video-sitemaps
+
+
+REVISÃO TÉCNICA
+- Execute scripts/build-pages.py e scripts/check-seo.py antes de publicar.
+- O gerador atualiza vercel.json com os redirecionamentos HTTP 301 dos projetos atuais.
+- A página 404 tem noindex e fica fora do sitemap; URLs inexistentes continuam com HTTP 404.
+- CSS e JavaScript recebem uma versão derivada do conteúdo. Depois de alterar esses arquivos, gere novamente as páginas para atualizar os endereços e o cache.
+- O painel gera e salva HTML, sitemap e roteamento juntos. Reabra o painel pelo iniciador para carregar uma nova versão do servidor.
+- Não crie páginas quase iguais para cada combinação de cidade e palavra-chave. Mantenha descrições reais dos serviços e projetos.
+- Resultados dependem também do Perfil da Empresa, referências de clientes, avaliações reais e da decisão do Google.

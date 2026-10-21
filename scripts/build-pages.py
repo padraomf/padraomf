@@ -4,6 +4,8 @@ from html import escape
 from urllib.parse import urlencode, urljoin
 import json
 import argparse
+import hashlib
+from functools import lru_cache
 import re
 from xml.etree import ElementTree as ET
 from urllib.parse import urlparse
@@ -33,6 +35,11 @@ logo = '<img data-logo src="assets/logo-oficial.png" alt="Padrão MF" width="234
 project_path = lambda p: p['path']
 category_for = lambda p: next(c for c in categories if c['id'] == p['category'])
 image_for = lambda p: p.get('image') or assets[p['asset']]
+
+@lru_cache(maxsize=None)
+def asset_url(relative):
+    version=hashlib.sha256((dist/relative).read_bytes()).hexdigest()[:12]
+    return relative+'?v='+version
 
 def whatsapp(category=None, project=None):
     if project:
@@ -158,15 +165,19 @@ def youtube_markup(p, hover=False):
     if origin:embed+='&origin='+urlencode({'x':origin.rstrip('/')})[2:]
     return f'<div class="youtube-shell" data-youtube="{p["youtubeId"]}" data-title="{escape(p["title"],quote=True)}" data-hover="{str(hover).lower()}"><iframe src="{escape(embed,quote=True)}" title="{escape(p["title"],quote=True)}" loading="lazy" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>'
 
-def page(main, service='', project=None, about=False):
+def page(main, service='', project=None, about=False, error=False):
     category = next((c for c in categories if c['id'] == service), None)
-    title = f'{project["title"]} — Padrão MF' if project else category.get('seoTitle',f'{category["name"]} — Padrão MF') if category else 'Padrão MF | Design e Audiovisual em Juazeiro e Petrolina'
+    title = f'{project["title"]} | {project["type"]} | Padrão MF' if project else category.get('seoTitle',f'{category["name"]} — Padrão MF') if category else 'Padrão MF | Design e Audiovisual em Juazeiro e Petrolina'
     description = project['description'] if project else category['description'] if category else 'Design gráfico, motion, vídeos com IA, produção audiovisual, transmissão ao vivo e drone. Atendimento em Juazeiro–BA e Petrolina–PE.'
     path = project_path(project) if project else category['path'] if category else 'index.html'
     if about:
         title='Sobre a Padrão MF'
         description='Conheça a Padrão MF: design gráfico, motion e produção audiovisual, com atendimento em Juazeiro–BA e Petrolina–PE e mais de 10 anos de experiência.'
         path='sobre.html'
+    if error:
+        title='Página não encontrada | Padrão MF'
+        description='Encontre os serviços e trabalhos da Padrão MF em Juazeiro e Petrolina.'
+        path='404.html'
     records = [project] if project else [p for p in projects if p['category']==service][:3] if category else []
     contact = whatsapp(category, project)
     return f'''<!DOCTYPE html>
@@ -176,7 +187,7 @@ def page(main, service='', project=None, about=False):
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#020303">
   <meta name="description" content="{escape(description, quote=True)}">
-  <meta name="robots" content="index,follow,max-image-preview:large,max-video-preview:-1">
+  <meta name="robots" content="{'noindex,follow' if error else 'index,follow,max-image-preview:large,max-video-preview:-1'}">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <title>{escape(title)}</title>
   {metadata(title, description, path, records)}
@@ -185,34 +196,34 @@ def page(main, service='', project=None, about=False):
   <link rel="alternate icon" href="favicon.ico?v=8.4" sizes="16x16 32x32 48x48">
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png?v=8.4">
   <link rel="preload" href="assets/fonts/new-science-regular-extended.woff" as="font" type="font/woff" crossorigin>
-  <link rel="stylesheet" href="assets/vendor/lenis-1.3.26.css">
-  <link rel="stylesheet" href="assets/site.css?v=8.4">
-  <link rel="stylesheet" href="assets/scroll-effects.css?v=8.4">
-  <link rel="stylesheet" href="assets/reel-player.css?v=8.4">
-  <link rel="stylesheet" href="assets/typography.css?v=8.4">
-  <script src="assets/data.js?v=8.4" defer></script>
-  <script src="assets/media-touch.js?v=8.4" defer></script>
-  <script src="assets/youtube-player.js?v=8.4" defer></script>
-  <script src="assets/app.js?v=8.4" defer></script>
-  <script src="assets/vendor/lenis-1.3.26.min.js" defer></script>
-  <script src="assets/scroll-effects.js?v=8.4" defer></script>
-  <script src="assets/reel-player.js?v=8.4" defer></script>
-  <script src="assets/share.js?v=8.4" defer></script>
+  <link rel="stylesheet" href="{asset_url('assets/vendor/lenis-1.3.26.css')}">
+  <link rel="stylesheet" href="{asset_url('assets/site.css')}">
+  <link rel="stylesheet" href="{asset_url('assets/scroll-effects.css')}">
+  <link rel="stylesheet" href="{asset_url('assets/reel-player.css')}">
+  <link rel="stylesheet" href="{asset_url('assets/typography.css')}">
+  <script src="{asset_url('assets/data.js')}" defer></script>
+  <script src="{asset_url('assets/media-touch.js')}" defer></script>
+  <script src="{asset_url('assets/youtube-player.js')}" defer></script>
+  <script src="{asset_url('assets/app.js')}" defer></script>
+  <script src="{asset_url('assets/vendor/lenis-1.3.26.min.js')}" defer></script>
+  <script src="{asset_url('assets/scroll-effects.js')}" defer></script>
+  <script src="{asset_url('assets/reel-player.js')}" defer></script>
+  <script src="{asset_url('assets/share.js')}" defer></script>
 </head>
 <body id="inicio" data-service="{service}" data-project="{project['id'] if project else ''}" data-page="{'sobre' if about else ''}">
   <a href="#portfolio" class="skip">Pular para os projetos</a>
   <header class="header">
     <button class="menu-button" id="open-menu" aria-label="Abrir menu de serviços" aria-haspopup="dialog"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18M3 12h18M3 19h18"/></svg><span>Portfólio</span></button>
-    <a class="logo" href="index.html" aria-label="Padrão MF — início">{logo}</a>
+    <a class="logo" href="./" aria-label="Padrão MF — início">{logo}</a>
     <div class="header-right"><span class="tagline">Sua ideia.<br>Nosso padrão.</span><a class="contact-button" {contact} aria-label="Conversar com a Padrão MF no WhatsApp"><span>WhatsApp</span>{arrow}</a></div>
   </header>
   {main}
   {software_strip()}
   <footer class="footer">
-    <div class="footer-main"><a class="logo" href="index.html" aria-label="Padrão MF — início">{logo}</a><span class="footer-tagline">Sua ideia. Nosso padrão.</span><div class="footer-links"><a id="instagram-footer" href="https://www.instagram.com/padraomf/" target="_blank" rel="noopener noreferrer">{instagram}<span>Instagram</span></a><a id="youtube-footer" href="https://www.youtube.com/@Padr%C3%A3oMF" target="_blank" rel="noopener noreferrer" title="Canal oficial da Padrão MF">{youtube}<span>YouTube</span></a><a {contact}>WhatsApp ↗</a></div></div>
+    <div class="footer-main"><a class="logo" href="./" aria-label="Padrão MF — início">{logo}</a><span class="footer-tagline">Sua ideia. Nosso padrão.</span><div class="footer-links"><a id="instagram-footer" href="https://www.instagram.com/padraomf/" target="_blank" rel="noopener noreferrer">{instagram}<span>Instagram</span></a><a id="youtube-footer" href="https://www.youtube.com/@Padr%C3%A3oMF" target="_blank" rel="noopener noreferrer" title="Canal oficial da Padrão MF">{youtube}<span>YouTube</span></a><a {contact}>WhatsApp ↗</a></div></div>
     <div class="footer-bottom"><span>© <span id="year">2026</span> Padrão MF · Atendimento em Juazeiro–BA e Petrolina–PE.</span><a class="back-top" href="#inicio">Voltar ao topo {arrow}</a></div>
   </footer>
-  <dialog class="nav-dialog" id="menu-dialog" aria-label="Menu de serviços"><button class="dialog-close" data-close aria-label="Fechar menu">✕</button><div class="menu-scroll"><div class="menu-content"><div class="menu-brand"><a class="logo" href="index.html">{logo}</a><div class="eyebrow">Explore a Padrão MF</div></div><nav id="category-nav" aria-label="Navegação"><a href="index.html">Início <span>00</span></a><a href="sobre.html" id="about-nav">Sobre</a>{service_links(service)}</nav><a class="contact-button" {contact}>Vamos criar juntos ↗</a></div></div></dialog>
+  <dialog class="nav-dialog" id="menu-dialog" aria-label="Menu de serviços"><button class="dialog-close" data-close aria-label="Fechar menu">✕</button><div class="menu-scroll"><div class="menu-content"><div class="menu-brand"><a class="logo" href="./">{logo}</a><div class="eyebrow">Explore a Padrão MF</div></div><nav id="category-nav" aria-label="Navegação"><a href="./">Início <span>00</span></a><a href="sobre.html" id="about-nav">Sobre</a>{service_links(service)}</nav><a class="contact-button" {contact}>Vamos criar juntos ↗</a></div></div></dialog>
   <dialog class="project-dialog" id="project-dialog" data-format="portrait" aria-labelledby="project-title">
     <div class="reel-stage">
       <div class="project-media" id="project-media"></div>
@@ -246,6 +257,12 @@ home = '''<main>
       </div>
       <div class="showcase-bottom"><button class="carousel-toggle" id="carousel-toggle" aria-controls="showcase-track" aria-pressed="false" aria-label="Pausar apresentação dos trabalhos"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14M16 5v14"/></svg><span>Pausar</span></button></div>
     </section>
+    <section class="home-intro" aria-labelledby="services-intro-title">
+      <div class="eyebrow">Juazeiro–BA · Petrolina–PE</div>
+      <h2 id="services-intro-title">Design, vídeos e audiovisual para sua marca.</h2>
+      <p>A Padrão MF cria <a href="cards-estaticos.html">artes para redes sociais</a>, <a href="motion-design.html">animações em motion design</a> e <a href="ia.html">produções com inteligência artificial</a>. Também realiza <a href="audiovisual.html">gravação e transmissão ao vivo</a>, <a href="drone.html">filmagem com drone</a> e <a href="pocket-video.html">vídeos para Reels e redes sociais</a>.</p>
+      <p>Atendimento em Juazeiro, na Bahia, e Petrolina, em Pernambuco. Explore os trabalhos abaixo ou <a href="sobre.html">conheça a Padrão MF</a>.</p>
+    </section>
     <div class="catalog" id="portfolio" aria-label="Portfólio por serviço"><div id="shelves"></div></div>
     <noscript>Abra um trabalho para assistir ao vídeo completo. <a href="https://wa.me/5574999204407">Fale conosco no WhatsApp.</a></noscript>
   </main>'''
@@ -254,6 +271,7 @@ home=home.replace('<div id="shelves"></div>','<div id="shelves">'+''.join(shelf_
 for index, category in enumerate(categories, 1):
     count = sum(p['category'] == category['id'] for p in projects)
     contact = whatsapp(category)
+    faq_content=''.join('<details><summary>'+escape(item['question'])+'</summary><p>'+escape(item['answer'])+'</p></details>' for item in category.get('faq',[]))
     grid_content=''.join(f'<article class="work-item">{card_markup(work,i<2)}<p class="work-description">{escape(work["description"])}</p><div class="work-actions"><a class="work-detail" data-open-project="{work["id"]}" href="{work["path"]}">Ver projeto</a><a class="work-whatsapp" {whatsapp(project=work)} data-contact-project="{work["id"]}">WhatsApp ↗</a>{share_button(project=work)}</div></article>' for i,work in enumerate(p for p in projects if p['category']==category['id']))
     if category['id']=='audiovisual':
         grid_content=''
@@ -261,7 +279,7 @@ for index, category in enumerate(categories, 1):
             grid_content += f'<article class="work-item audiovisual-item">{youtube_markup(work,True)}<h2 class="work-title">{escape(work["title"])}</h2><span class="detail-type">{escape(work["type"])}</span><p class="work-description">{escape(work["description"])}</p><div class="work-actions"><a class="work-detail" data-open-project="{work["id"]}" href="{project_path(work)}">Ver projeto</a><a class="work-whatsapp" {whatsapp(project=work)} data-contact-project="{work["id"]}">WhatsApp ↗</a>{share_button(project=work)}</div></article>'
     main = f'''<main id="portfolio">
     <section class="service-heading" aria-labelledby="service-title">
-      <a class="breadcrumb" href="index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m10 5-7 7 7 7M3 12h18"/></svg>Voltar ao portfólio</a>
+      <a class="breadcrumb" href="./"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m10 5-7 7 7 7M3 12h18"/></svg>Voltar ao portfólio</a>
       <div class="eyebrow">Serviço {index:02d} · Padrão MF</div>
       <h1 id="service-title">{escape(category.get('heading',category['name']))}</h1>
       <p>{escape(category['description'])}</p>
@@ -270,9 +288,15 @@ for index, category in enumerate(categories, 1):
     </section>
     <nav class="service-nav" id="service-nav" aria-label="Outros serviços">{service_links(category['id'])}</nav>
     <section class="service-grid {category['shape']}" id="service-grid" aria-label="Todos os trabalhos de {escape(category['name'], quote=True)}">{grid_content}</section>
+    <section class="service-faq" aria-labelledby="faq-title"><h2 id="faq-title">Dúvidas sobre {escape(category['label'])}</h2>{faq_content}</section>
     <noscript>Abra um trabalho para ver todos os detalhes. <a href="https://wa.me/5574999204407">Fale conosco no WhatsApp.</a></noscript>
   </main>'''
     (dist / category['path']).write_text(page(main, category['id']), encoding='utf-8')
+
+def related_projects(project):
+    others=[p for p in projects if p['category']==project['category'] and p['id']!=project['id']][:3]
+    cards=''.join('<article class="work-item">'+card_markup(p)+'<a class="work-detail" href="'+escape(p['path'],quote=True)+'">'+escape(p['title'])+'</a></article>' for p in others)
+    return '<section class="related-projects" aria-labelledby="related-title"><h2 id="related-title">Mais trabalhos de '+escape(category_for(project)['label'])+'</h2><div class="related-grid">'+cards+'</div></section>'
 
 for p in projects:
     category=category_for(p)
@@ -281,18 +305,23 @@ for p in projects:
     elif p.get('video'):
         media=f'<video src="{p["video"]}" poster="{image_for(p)}" controls playsinline preload="none" aria-label="{escape(p["title"],quote=True)}"></video>'
     else:
-        media=f'<img src="{image_for(p)}" alt="{escape(p["title"],quote=True)}">'
+        with Image.open(dist / image_for(p)) as artwork:
+            width,height=artwork.size
+        media=f'<img src="{image_for(p)}" alt="{escape(p["title"],quote=True)}" width="{width}" height="{height}" decoding="async">'
     main=f'''<main id="portfolio" class="detail-page">
       <a class="breadcrumb" href="{category['path']}">← Voltar para {escape(category['name'])}</a>
       <article class="detail-layout">
         <div class="project-media detail-media">{media}</div>
         <div class="detail-info"><div class="eyebrow">{escape(category['label'])}</div><h1>{escape(p['title'])}</h1><span class="detail-type">{escape(p['type'])}</span><p>{escape(p['description'])}</p><div class="detail-actions"><a class="button button-green" {whatsapp(project=p)}>Quero um projeto assim · WhatsApp {arrow}</a>{share_button(project=p)}</div><a class="work-detail" href="{category['path']}">Ver mais trabalhos deste serviço</a></div>
       </article>
+      {related_projects(p)}
       <nav class="service-nav" id="service-nav" aria-label="Outros serviços">{service_links(category['id'])}</nav>
     </main>'''
     (dist / project_path(p)).write_text(page(main, category['id'], p), encoding='utf-8')
-about_main='''<main id="portfolio" class="about-page"><a class="breadcrumb" href="index.html">← Voltar ao portfólio</a><section class="about-intro"><div class="eyebrow">Design + Audiovisual</div><h1>Sobre a<br><strong>Padrão MF.</strong></h1><span class="about-experience">Mais de 10 anos transformando ideias.</span></section><div class="about-copy"><p>A Padrão MF é uma empresa especializada em design gráfico e produção audiovisual, com mais de 10 anos de experiência no mercado. Trabalhamos com criação de artes, motion design, edição de vídeos, inteligência artificial e soluções visuais para empresas, marcas, artistas e eventos.</p><p>Realizamos gravação e produção de vídeos promocionais, vídeos institucionais e corporativos, cobertura audiovisual de eventos, produção de EPs visuais e conteúdos para redes sociais. Também desenvolvemos projetos criativos utilizando inteligência artificial para potencializar a qualidade, inovação e impacto de cada produção.</p><p>Atendemos em Juazeiro, na Bahia, e Petrolina, em Pernambuco, com design gráfico, motion design, produções com inteligência artificial, audiovisual, transmissões ao vivo, imagens com drone e vídeos para redes sociais. Na Padrão MF, transformamos ideias em conteúdos visuais profissionais, criativos e estratégicos para marcas, empresas e artistas.</p></div><a class="button button-green" ''' + whatsapp() + '''>Vamos conversar sobre seu projeto ↗</a></main>'''
+about_main='''<main id="portfolio" class="about-page"><a class="breadcrumb" href="./">← Voltar ao portfólio</a><section class="about-intro"><div class="eyebrow">Design + Audiovisual</div><h1>Sobre a<br><strong>Padrão MF.</strong></h1><span class="about-experience">Mais de 10 anos transformando ideias.</span></section><div class="about-copy"><p>A Padrão MF é uma empresa especializada em design gráfico e produção audiovisual, com mais de 10 anos de experiência no mercado. Trabalhamos com criação de artes, motion design, edição de vídeos, inteligência artificial e soluções visuais para empresas, marcas, artistas e eventos.</p><p>Realizamos gravação e produção de vídeos promocionais, vídeos institucionais e corporativos, cobertura audiovisual de eventos, produção de EPs visuais e conteúdos para redes sociais. Também desenvolvemos projetos criativos utilizando inteligência artificial para potencializar a qualidade, inovação e impacto de cada produção.</p><p>Atendemos em Juazeiro, na Bahia, e Petrolina, em Pernambuco, com design gráfico, motion design, produções com inteligência artificial, audiovisual, transmissões ao vivo, imagens com drone e vídeos para redes sociais. Na Padrão MF, transformamos ideias em conteúdos visuais profissionais, criativos e estratégicos para marcas, empresas e artistas.</p></div><a class="button button-green" ''' + whatsapp() + '''>Vamos conversar sobre seu projeto ↗</a></main>'''
 (dist / 'sobre.html').write_text(page(about_main,about=True), encoding='utf-8')
+error_main='<main id="portfolio" class="service-heading error-page"><div class="eyebrow">Erro 404</div><h1>Esta página não foi encontrada.</h1><p>Continue pelo portfólio ou escolha um dos serviços da Padrão MF.</p><a class="button button-green" href="./">Voltar ao portfólio</a><nav class="service-nav" aria-label="Serviços disponíveis">'+service_links()+'</nav></main>'
+(dist / '404.html').write_text(page(error_main,error=True),encoding='utf-8')
 # Preserve previously issued addresses while linking new pages by their subjects.
 for p in projects:
     old=dist / ('projeto-'+p['id']+'.html')
@@ -303,13 +332,17 @@ print(f'Generated home, About, {len(categories)} service pages and {len(projects
 robots='User-agent: *\nAllow: /\n'
 if origin:
     ns='http://www.sitemaps.org/schemas/sitemap/0.9';vn='http://www.google.com/schemas/sitemap-video/1.1'
-    ET.register_namespace('',ns);ET.register_namespace('video',vn)
+    image_ns='http://www.google.com/schemas/sitemap-image/1.1'
+    ET.register_namespace('',ns);ET.register_namespace('video',vn);ET.register_namespace('image',image_ns)
     tree=ET.Element('{'+ns+'}urlset')
     paths=['index.html','sobre.html']+[c['path'] for c in categories]+[p['path'] for p in projects]
     for path in paths:
         node=ET.SubElement(tree,'{'+ns+'}url');ET.SubElement(node,'{'+ns+'}loc').text=urljoin(origin,'' if path=='index.html' else path)
         work=next((p for p in projects if p['path']==path),None)
-        if work and work.get('video'):
+        if work and not image_for(work).startswith('https://'):
+            image=ET.SubElement(node,'{'+image_ns+'}image')
+            ET.SubElement(image,'{'+image_ns+'}loc').text=urljoin(origin,image_for(work))
+        if work and (work.get('video') or work.get('youtubeId')):
             video=ET.SubElement(node,'{'+vn+'}video')
             for key,value in [('thumbnail_loc',urljoin(origin,share_images[work['id']][0])),('title',work['title']),('description',work['description'])]:ET.SubElement(video,'{'+vn+'}'+key).text=value
             if work.get('youtubeId'):ET.SubElement(video,'{'+vn+'}player_loc').text='https://www.youtube.com/embed/'+work['youtubeId']
@@ -319,3 +352,13 @@ if origin:
 else:
     (dist/'sitemap.xml').unlink(missing_ok=True)
 (dist/'robots.txt').write_text(robots, encoding='utf-8')
+
+# Keep server redirects in sync with the public project list.
+routing_file=root/'vercel.json'
+routing=json.loads(routing_file.read_text(encoding='utf-8')) if routing_file.exists() else {'routes':[]}
+routes=[r for r in routing.get('routes',[]) if not r.get('src','').startswith('/projeto-') and r.get('src')!='/index\\.html']
+redirects=[{'src':'/index\\.html','status':301,'headers':{'Location':origin}}]
+redirects += [{'src':'/projeto-'+re.escape(p['id'])+'\\.html','status':301,'headers':{'Location':urljoin(origin,p['path'])}} for p in projects]
+position=next((i for i,r in enumerate(routes) if r.get('handle')=='filesystem'),len(routes))
+routing['routes']=routes[:position]+redirects+routes[position:]
+routing_file.write_text(json.dumps(routing,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')

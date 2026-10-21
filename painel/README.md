@@ -15,3 +15,6 @@ Excluir um projeto retira sua página e o redirecionamento antigo. As mídias fi
 Publicar verifica o SEO, prepara somente os arquivos do portfólio e interrompe em erros de commit ou push. Confirmações do GitHub e do Vercel são distintas: a mensagem informa se a implantação ainda está pendente. Arquivos de ambiente, temporários e dependências não entram na publicação.
 
 O aviso de vídeo na página inicial do Search Console é esperado: ela reúne vários trabalhos, enquanto cada projeto de vídeo tem sua página individual. Não é necessário transformar a página inicial em um player de vídeo.
+
+
+O salvamento também atualiza `vercel.json`: páginas antigas dos projetos usam HTTP 301 para seus destinos atuais, e a página de erro mantém HTTP 404. Estilos e scripts são versionados pelo conteúdo durante a geração. Depois de atualizar o código do painel, feche a instância anterior e reabra pelo iniciador para carregar a nova versão.

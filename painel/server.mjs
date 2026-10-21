@@ -43,13 +43,14 @@ export function createPanel({ root = process.env.SITE_ROOT || path.join(HERE, '.
     const changed = [];
     try {
       fs.mkdirSync(path.join(stage, 'scripts'));
+      fs.copyFileSync(localFile('vercel.json'), path.join(stage, 'vercel.json'));
       for (const name of ['build-pages.py', 'check-seo.py']) fs.copyFileSync(localFile('scripts/' + name), path.join(stage, 'scripts', name));
       fs.cpSync(localFile('assets'), path.join(stage, 'assets'), { recursive: true, filter: src => !/\.(mp4|webm|mov|m4v)$/i.test(src) });
       const raw = data.raw.replace(/\/\* ASSETS_START \*\/[\s\S]*?\/\* ASSETS_END \*\//, '/* ASSETS_START */\n' + JSON.stringify(data.assets, null, 2) + '\n/* ASSETS_END */').replace(/\/\* PROJECTS_START \*\/[\s\S]*?\/\* PROJECTS_END \*\//, '/* PROJECTS_START */\n' + JSON.stringify(data.projects, null, 2) + '\n/* PROJECTS_END */');
       fs.writeFileSync(path.join(stage, 'assets/data.js'), raw);
       command(python, ['scripts/build-pages.py'], stage); command(python, ['scripts/check-seo.py'], stage);
       for (const project of removed) fs.rmSync(path.join(stage, 'assets/share', project.id + '.jpg'), { force: true });
-      const files = ['assets/data.js', 'robots.txt', 'sitemap.xml', ...fs.readdirSync(stage).filter(n => n.endsWith('.html')), ...fs.readdirSync(path.join(stage, 'assets/share')).map(n => 'assets/share/' + n)];
+      const files = ['assets/data.js', 'robots.txt', 'sitemap.xml', 'vercel.json', ...fs.readdirSync(stage).filter(n => n.endsWith('.html')), ...fs.readdirSync(path.join(stage, 'assets/share')).map(n => 'assets/share/' + n)];
       const deletes = removed.flatMap(p => [p.path, 'projeto-' + p.id + '.html', 'assets/share/' + p.id + '.jpg']).filter(n => !files.includes(n));
       fs.mkdirSync(backup, { recursive: true });
       fs.writeFileSync(path.join(backup, 'operacao.json'), JSON.stringify({ date: new Date().toISOString(), files, deletes }, null, 2));

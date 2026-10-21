@@ -106,7 +106,17 @@
     "description": "Vídeos e imagens com inteligência artificial para campanhas, marcas e artistas em Juazeiro–BA e Petrolina–PE.",
     "heading": "Produção de vídeos e imagens com IA",
     "details": "Criamos conteúdos visuais com IA para apresentar produtos, divulgar lançamentos e dar movimento às suas ideias. Veja exemplos de campanhas e animações abaixo e fale conosco sobre o formato, a referência visual e o objetivo do seu projeto.",
-    "seoTitle": "Vídeos e Imagens com IA em Juazeiro e Petrolina | Padrão MF"
+    "seoTitle": "Vídeos e Imagens com IA em Juazeiro e Petrolina | Padrão MF",
+    "faq": [
+      {
+        "question": "O que vocês criam com inteligência artificial?",
+        "answer": "Produzimos vídeos, imagens e composições visuais para campanhas, divulgação de produtos e projetos de artistas. Os trabalhos desta página mostram exemplos do estilo e das possibilidades de criação."
+      },
+      {
+        "question": "O que enviar para solicitar um projeto com IA?",
+        "answer": "Envie o objetivo da campanha, as referências visuais, os materiais da marca ou do produto e o formato em que pretende publicar. Esses detalhes ajudam a definir a proposta do projeto."
+      }
+    ]
   },
   {
     "id": "motion",
@@ -117,7 +127,17 @@
     "description": "Motion design e animação de artes para agendas de shows, lançamentos e campanhas em Juazeiro–BA e Petrolina–PE.",
     "heading": "Motion design e animação de artes",
     "details": "Transformamos artes e informações em peças animadas para artistas, marcas e eventos. O portfólio reúne agendas de shows, divulgação de lançamentos e campanhas. Envie o conteúdo que precisa divulgar para conversarmos sobre a animação e o formato da entrega.",
-    "seoTitle": "Motion Design em Juazeiro e Petrolina | Padrão MF"
+    "seoTitle": "Motion Design em Juazeiro e Petrolina | Padrão MF",
+    "faq": [
+      {
+        "question": "Qual é a diferença entre uma arte estática e motion design?",
+        "answer": "Uma arte estática apresenta a informação em uma imagem. O motion design acrescenta movimento a elementos gráficos, textos e imagens, como nos exemplos de agendas, teasers e lançamentos desta página."
+      },
+      {
+        "question": "Como solicitar uma animação para meu evento ou lançamento?",
+        "answer": "Informe o que será divulgado, a data, os textos que precisam aparecer e onde o vídeo será publicado. Se já tiver uma arte ou identidade visual, envie como referência para a conversa sobre o projeto."
+      }
+    ]
   },
   {
     "id": "design",
@@ -128,7 +148,17 @@
     "description": "Design gráfico e criação de artes para redes sociais, marcas, artistas e eventos em Juazeiro–BA e Petrolina–PE.",
     "heading": "Design gráfico e artes para redes sociais",
     "details": "Criamos peças para divulgar sua marca, evento, produto ou lançamento nas redes sociais. Confira os trabalhos de design gráfico e cards do portfólio. Para solicitar um projeto, conte o que será divulgado, onde a arte será usada e quais informações ela precisa apresentar.",
-    "seoTitle": "Design Gráfico em Juazeiro e Petrolina | Padrão MF"
+    "seoTitle": "Design Gráfico em Juazeiro e Petrolina | Padrão MF",
+    "faq": [
+      {
+        "question": "Que tipos de artes aparecem neste portfólio?",
+        "answer": "O portfólio reúne artes para divulgação de artistas, eventos, produtos, campanhas e redes sociais. Os exemplos ajudam a escolher uma referência para a peça que você precisa."
+      },
+      {
+        "question": "O que preciso enviar para criar uma arte?",
+        "answer": "Envie o texto, as imagens disponíveis, a marca, a finalidade da peça e o formato de publicação. Para eventos, inclua data, local e as informações que devem ser divulgadas."
+      }
+    ]
   },
   {
     "id": "audiovisual",
@@ -139,7 +169,17 @@
     "description": "Produção audiovisual, gravação de shows, cobertura de eventos e transmissão ao vivo em Juazeiro–BA e Petrolina–PE.",
     "heading": "Produção audiovisual e transmissão ao vivo",
     "details": "Realizamos gravação e produção de vídeos, cobertura audiovisual de eventos e transmissões ao vivo. Conheça os trabalhos de shows e performances abaixo. Para planejar seu projeto em Juazeiro ou Petrolina, informe a data, o local e o que precisa ser gravado ou transmitido.",
-    "seoTitle": "Audiovisual e Transmissão ao Vivo em Juazeiro e Petrolina | Padrão MF"
+    "seoTitle": "Audiovisual e Transmissão ao Vivo em Juazeiro e Petrolina | Padrão MF",
+    "faq": [
+      {
+        "question": "Vocês fazem gravação e transmissão ao vivo?",
+        "answer": "Sim. A Padrão MF trabalha com produção audiovisual, gravação de shows e performances, cobertura de eventos e transmissão ao vivo, com atendimento em Juazeiro–BA e Petrolina–PE."
+      },
+      {
+        "question": "O que informar para planejar a cobertura do meu evento?",
+        "answer": "Informe a data, o local, os horários, o tipo de evento e se precisa de gravação, transmissão ou das duas. As condições do local e a estrutura necessária são avaliadas na conversa sobre o projeto."
+      }
+    ]
   },
   {
     "id": "drone",
@@ -150,7 +190,17 @@
     "description": "Filmagem com drone e captação de imagens aéreas de eventos, paisagens e projetos em Juazeiro–BA e Petrolina–PE.",
     "heading": "Filmagem com drone e imagens aéreas",
     "details": "Produzimos imagens aéreas para mostrar eventos, locais e projetos por outra perspectiva. Veja exemplos de filmagem com drone no portfólio. Converse conosco sobre o local da captação, a data e o uso das imagens para avaliarmos o atendimento e as condições de realização.",
-    "seoTitle": "Filmagem com Drone em Juazeiro e Petrolina | Padrão MF"
+    "seoTitle": "Filmagem com Drone em Juazeiro e Petrolina | Padrão MF",
+    "faq": [
+      {
+        "question": "É possível contratar imagens aéreas para um evento ou projeto?",
+        "answer": "Sim. O portfólio inclui imagens aéreas de eventos, paisagens e locais. Atendemos em Juazeiro–BA e Petrolina–PE; a viabilidade da captação é avaliada para cada local e ocasião."
+      },
+      {
+        "question": "O que preciso informar para solicitar uma filmagem com drone?",
+        "answer": "Envie o local exato, a data desejada, o tipo de imagem e como o material será usado. Esses dados permitem avaliar as condições de realização e conversar sobre a captação."
+      }
+    ]
   },
   {
     "id": "social",
@@ -161,7 +211,17 @@
     "description": "Produção e edição de vídeos para Instagram, Reels e redes sociais de marcas e artistas em Juazeiro–BA e Petrolina–PE.",
     "heading": "Produção de vídeos para redes sociais e Reels",
     "details": "Criamos vídeos verticais e pocket videos para divulgar marcas, artistas e apresentações nas redes sociais. Confira os trabalhos abaixo e conte o que deseja comunicar, em qual plataforma vai publicar e se precisa de gravação, edição ou das duas etapas.",
-    "seoTitle": "Vídeos para Redes Sociais em Juazeiro e Petrolina | Padrão MF"
+    "seoTitle": "Vídeos para Redes Sociais em Juazeiro e Petrolina | Padrão MF",
+    "faq": [
+      {
+        "question": "O que é um pocket video?",
+        "answer": "É um vídeo curto pensado para divulgar uma apresentação, uma marca ou uma mensagem nas redes sociais. Os trabalhos desta página mostram exemplos de conteúdos verticais para esse tipo de publicação."
+      },
+      {
+        "question": "Posso solicitar gravação e edição para Reels?",
+        "answer": "Você pode conversar com a Padrão MF sobre gravação, edição ou as duas etapas. Informe o objetivo do vídeo, a plataforma de publicação, a data e os materiais que já tem disponíveis."
+      }
+    ]
   }
 ];
   const PROJECTS = /* PROJECTS_START */

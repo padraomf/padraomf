@@ -1,8 +1,630 @@
 {
   "routes": [
-    { "src": "/(?:painel|scripts)(?:/.*)?", "status": 404 },
-    { "src": "/(?:ABRIR-PAINEL\\.bat|INICIAR-SITE\\.bat|INDEXACAO\\.txt)", "status": 404 },
-    { "handle": "filesystem" },
-    { "src": "/.*", "status": 404 }
+    {
+      "src": "/.*",
+      "headers": {
+        "X-Content-Type-Options": "nosniff",
+        "Referrer-Policy": "strict-origin-when-cross-origin"
+      },
+      "continue": true
+    },
+    {
+      "src": "/assets/.*\\.(?:css|js)",
+      "has": [
+        {
+          "type": "query",
+          "key": "v",
+          "value": "[a-f0-9]{12}"
+        }
+      ],
+      "headers": {
+        "Cache-Control": "public, max-age=31536000, immutable"
+      },
+      "continue": true
+    },
+    {
+      "src": "/assets/fonts/(.*)",
+      "headers": {
+        "Cache-Control": "public, max-age=86400, stale-while-revalidate=604800"
+      },
+      "continue": true
+    },
+    {
+      "src": "/(?:painel|scripts)(?:/.*)?",
+      "status": 404
+    },
+    {
+      "src": "/(?:ABRIR-PAINEL\\.bat|INICIAR-SITE\\.bat|INDEXACAO\\.txt)",
+      "status": 404
+    },
+    {
+      "src": "/index\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/"
+      }
+    },
+    {
+      "src": "/projeto-proj\\-1790198958182\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/semanal-desejo-de-menina-1790198958182.html"
+      }
+    },
+    {
+      "src": "/projeto-ia\\-feliz\\-pascoa\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/feliz-pascoa.html"
+      }
+    },
+    {
+      "src": "/projeto-ia\\-iphone\\-app\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/iphone-novo-app-novo.html"
+      }
+    },
+    {
+      "src": "/projeto-ia\\-duo\\-perfeito\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/o-duo-perfeito.html"
+      }
+    },
+    {
+      "src": "/projeto-ia\\-bandeja\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/animacao-de-bandeja.html"
+      }
+    },
+    {
+      "src": "/projeto-ia\\-caramelito\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/caramelito.html"
+      }
+    },
+    {
+      "src": "/projeto-ia\\-baby\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/o-baby-vai-fazer-historia.html"
+      }
+    },
+    {
+      "src": "/projeto-ia\\-original\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/original-open-bar-premium.html"
+      }
+    },
+    {
+      "src": "/projeto-ia\\-preparados\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/preparados.html"
+      }
+    },
+    {
+      "src": "/projeto-ia\\-desejo\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/desejo-de-menina-proximos-shows.html"
+      }
+    },
+    {
+      "src": "/projeto-ia\\-sabores\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/sabores-caindo.html"
+      }
+    },
+    {
+      "src": "/projeto-estatico\\-01\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/matheus-torres-em-casa.html"
+      }
+    },
+    {
+      "src": "/projeto-estatico\\-02\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/matheus-do-acordeon.html"
+      }
+    },
+    {
+      "src": "/projeto-estatico\\-03\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/desejo-de-menina-itaiba.html"
+      }
+    },
+    {
+      "src": "/projeto-estatico\\-04\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/pede-ai-cupom.html"
+      }
+    },
+    {
+      "src": "/projeto-estatico\\-05\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/gelo-sal-combo.html"
+      }
+    },
+    {
+      "src": "/projeto-estatico\\-06\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/desejo-de-menina-ituacu.html"
+      }
+    },
+    {
+      "src": "/projeto-estatico\\-07\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/desejo-de-menina-canavieira.html"
+      }
+    },
+    {
+      "src": "/projeto-estatico\\-08\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/gelo-sal-dia-da-cerveja.html"
+      }
+    },
+    {
+      "src": "/projeto-estatico\\-09\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/fabinho-exu.html"
+      }
+    },
+    {
+      "src": "/projeto-estatico\\-10\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/gelo-sal-ticket-refeicao.html"
+      }
+    },
+    {
+      "src": "/projeto-estatico\\-11\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/henry-e-pisi-loft87.html"
+      }
+    },
+    {
+      "src": "/projeto-estatico\\-12\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/fabinho-vermelhos.html"
+      }
+    },
+    {
+      "src": "/projeto-estatico\\-13\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/juvenilson-comunicacao.html"
+      }
+    },
+    {
+      "src": "/projeto-estatico\\-14\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/juvenilson-lavagem-do-bonfim.html"
+      }
+    },
+    {
+      "src": "/projeto-estatico\\-15\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/juvenilson-20-mil.html"
+      }
+    },
+    {
+      "src": "/projeto-estatico\\-16\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/maquina-petrolina.html"
+      }
+    },
+    {
+      "src": "/projeto-estatico\\-17\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/maquina-estrutura-de-palco.html"
+      }
+    },
+    {
+      "src": "/projeto-estatico\\-18\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/dolce-juazeiro.html"
+      }
+    },
+    {
+      "src": "/projeto-estatico\\-19\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/fabinho-pre-save.html"
+      }
+    },
+    {
+      "src": "/projeto-estatico\\-20\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/seu-sal-semana-do-cliente.html"
+      }
+    },
+    {
+      "src": "/projeto-drone\\-nova\\-praca\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/drone-nova-praca.html"
+      }
+    },
+    {
+      "src": "/projeto-drone\\-ponte\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/drone-ponte.html"
+      }
+    },
+    {
+      "src": "/projeto-drone\\-semifinal\\-futsal\\-jp2\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/drone-semifinal-futsal-jp2.html"
+      }
+    },
+    {
+      "src": "/projeto-drone\\-orla\\-petrolina\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/drone-orla-petrolina.html"
+      }
+    },
+    {
+      "src": "/projeto-drone\\-sao\\-joao\\-pnz\\-run\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/drone-sao-joao-pnz-run.html"
+      }
+    },
+    {
+      "src": "/projeto-drone\\-kannario\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/kannario-em-juazeiro.html"
+      }
+    },
+    {
+      "src": "/projeto-drone\\-pnz\\-run\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/sao-joao-pnz-run.html"
+      }
+    },
+    {
+      "src": "/projeto-drone\\-caravana\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/caravana-natalina-coca-cola.html"
+      }
+    },
+    {
+      "src": "/projeto-drone\\-canteiro\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/canteiro.html"
+      }
+    },
+    {
+      "src": "/projeto-drone\\-caixa\\-agua\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/caixa-dagua-joao-paulo-ii.html"
+      }
+    },
+    {
+      "src": "/projeto-drone\\-ccb\\-pilar\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/ccb-pilar.html"
+      }
+    },
+    {
+      "src": "/projeto-motion\\-nova\\-interface\\-pede\\-ai\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/motion-nova-interface-pede-ai.html"
+      }
+    },
+    {
+      "src": "/projeto-motion\\-baby\\-historia\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/motion-baby-historia.html"
+      }
+    },
+    {
+      "src": "/projeto-motion\\-duo\\-perfeito\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/motion-duo-perfeito.html"
+      }
+    },
+    {
+      "src": "/projeto-motion\\-original\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/motion-original.html"
+      }
+    },
+    {
+      "src": "/projeto-motion\\-preparados\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/motion-preparados.html"
+      }
+    },
+    {
+      "src": "/projeto-motion\\-ta\\-disponivel\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/motion-ta-disponivel.html"
+      }
+    },
+    {
+      "src": "/projeto-motion\\-agenda\\-janeiro\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/motion-agenda-janeiro.html"
+      }
+    },
+    {
+      "src": "/projeto-motion\\-agenda\\-16\\-janeiro\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/motion-agenda-16-janeiro.html"
+      }
+    },
+    {
+      "src": "/projeto-motion\\-agenda\\-11\\-junho\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/motion-agenda-11-junho.html"
+      }
+    },
+    {
+      "src": "/projeto-motion\\-animacao\\-bandeja\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/motion-animacao-bandeja.html"
+      }
+    },
+    {
+      "src": "/projeto-motion\\-agenda\\-maio\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/motion-agenda-maio.html"
+      }
+    },
+    {
+      "src": "/projeto-motion\\-esta\\-no\\-ar\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/motion-esta-no-ar.html"
+      }
+    },
+    {
+      "src": "/projeto-motion\\-quijingue\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/motion-quijingue.html"
+      }
+    },
+    {
+      "src": "/projeto-motion\\-iphone\\-app\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/motion-iphone-app.html"
+      }
+    },
+    {
+      "src": "/projeto-motion\\-lancamento\\-sua\\-musica\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/motion-lancamento-sua-musica.html"
+      }
+    },
+    {
+      "src": "/projeto-motion\\-desejo\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/desejo-de-menina-agenda.html"
+      }
+    },
+    {
+      "src": "/projeto-motion\\-agosto\\-2\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/desejo-de-menina-agosto.html"
+      }
+    },
+    {
+      "src": "/projeto-motion\\-vaguinho\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/vaguinho-agenda-de-agosto.html"
+      }
+    },
+    {
+      "src": "/projeto-motion\\-agosto\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/agenda-de-agosto.html"
+      }
+    },
+    {
+      "src": "/projeto-motion\\-setembro\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/agenda-de-setembro.html"
+      }
+    },
+    {
+      "src": "/projeto-motion\\-fim\\-semana\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/desejo-de-menina-fim-de-semana.html"
+      }
+    },
+    {
+      "src": "/projeto-pocket\\-vaguinho\\-sexta\\-feira\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/pocket-vaguinho-sexta-feira.html"
+      }
+    },
+    {
+      "src": "/projeto-pocket\\-au\\-au\\-au\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/pocket-au-au-au.html"
+      }
+    },
+    {
+      "src": "/projeto-pocket\\-oh\\-vaqueiro\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/pocket-oh-vaqueiro.html"
+      }
+    },
+    {
+      "src": "/projeto-pocket\\-vamos\\-vaqueiro\\-performance\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/pocket-vamos-vaqueiro-performance.html"
+      }
+    },
+    {
+      "src": "/projeto-pocket\\-no\\-ouvidinho\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/pocket-no-ouvidinho.html"
+      }
+    },
+    {
+      "src": "/projeto-pocket\\-cachaca\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/pocket-cachaca.html"
+      }
+    },
+    {
+      "src": "/projeto-pocket\\-calma\\-amor\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/calma-amor-fica-tranquila.html"
+      }
+    },
+    {
+      "src": "/projeto-pocket\\-jessica\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/jessica-xamego.html"
+      }
+    },
+    {
+      "src": "/projeto-pocket\\-vamos\\-vaqueiro\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/vamos-vaqueiro.html"
+      }
+    },
+    {
+      "src": "/projeto-youtube\\-WlWj5_kKuGQ\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/a-nova-regra-do-jogo.html"
+      }
+    },
+    {
+      "src": "/projeto-youtube\\-iWAld\\-Xves8\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/aonde-o-sergio-vai-chega-morena.html"
+      }
+    },
+    {
+      "src": "/projeto-youtube\\-vCHoc6w_\\-e0\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/be-be-be-do-bode.html"
+      }
+    },
+    {
+      "src": "/projeto-youtube\\-rSjj319iqNA\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/mar-e-ela.html"
+      }
+    },
+    {
+      "src": "/projeto-youtube\\-xUx7pi5MSSE\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/esperando-na-janela.html"
+      }
+    },
+    {
+      "src": "/projeto-youtube\\-3FzEt9c8e4c\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/igual-a-meu-pai-vamos-vaqueiro.html"
+      }
+    },
+    {
+      "src": "/projeto-youtube\\-K6ex9P0TBbA\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/razoes-de-janeiro-a-janeiro.html"
+      }
+    },
+    {
+      "src": "/projeto-youtube\\-ubRcWtzY38U\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/tbt-ao-vivao.html"
+      }
+    },
+    {
+      "src": "/projeto-youtube\\-FCZZL52GhtM\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/meu-beija-flor-nego-do-gado.html"
+      }
+    },
+    {
+      "src": "/projeto-youtube\\-hEuNcSzU77c\\.html",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/mix-de-sucessos.html"
+      }
+    },
+    {
+      "handle": "filesystem"
+    },
+    {
+      "src": "/.*",
+      "dest": "/404.html",
+      "status": 404
+    }
   ]
 }
