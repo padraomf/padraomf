@@ -38,7 +38,7 @@ image_for = lambda p: p.get('image') or assets[p['asset']]
 
 @lru_cache(maxsize=None)
 def asset_url(relative):
-    version=hashlib.sha256((dist/relative).read_bytes()).hexdigest()[:12]
+    version=hashlib.sha256((dist/relative).read_text(encoding='utf-8').encode('utf-8')).hexdigest()[:12]
     return relative+'?v='+version
 
 def whatsapp(category=None, project=None):

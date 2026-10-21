@@ -96,7 +96,7 @@ for page in pages:
         if address.scheme or address.netloc: continue
         source=root/unquote(address.path)
         assert source.is_file(), (page,'recurso ausente',resource)
-        expected_version=hashlib.sha256(source.read_bytes()).hexdigest()[:12]
+        expected_version=hashlib.sha256(source.read_text(encoding='utf-8').encode('utf-8')).hexdigest()[:12]
         assert parse_qs(address.query).get('v')==[expected_version], (page,'versão de arquivo incorreta',resource)
     for image in parsed.images:
         assert 'alt' in image, (page,'imagem sem alt')
