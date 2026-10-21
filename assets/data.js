@@ -103,7 +103,10 @@
     "label": "Inteligência artificial",
     "shape": "portrait",
     "path": "ia.html",
-    "description": "Campanhas e experiências visuais criadas com inteligência artificial."
+    "description": "Vídeos e imagens com inteligência artificial para campanhas, marcas e artistas em Juazeiro–BA e Petrolina–PE.",
+    "heading": "Produção de vídeos e imagens com IA",
+    "details": "Criamos conteúdos visuais com IA para apresentar produtos, divulgar lançamentos e dar movimento às suas ideias. Veja exemplos de campanhas e animações abaixo e fale conosco sobre o formato, a referência visual e o objetivo do seu projeto.",
+    "seoTitle": "Vídeos e Imagens com IA em Juazeiro e Petrolina | Padrão MF"
   },
   {
     "id": "motion",
@@ -111,7 +114,10 @@
     "label": "Motion Design",
     "shape": "portrait",
     "path": "motion-design.html",
-    "description": "Animação e movimento para agendas, lançamentos e campanhas."
+    "description": "Motion design e animação de artes para agendas de shows, lançamentos e campanhas em Juazeiro–BA e Petrolina–PE.",
+    "heading": "Motion design e animação de artes",
+    "details": "Transformamos artes e informações em peças animadas para artistas, marcas e eventos. O portfólio reúne agendas de shows, divulgação de lançamentos e campanhas. Envie o conteúdo que precisa divulgar para conversarmos sobre a animação e o formato da entrega.",
+    "seoTitle": "Motion Design em Juazeiro e Petrolina | Padrão MF"
   },
   {
     "id": "design",
@@ -119,7 +125,10 @@
     "label": "Design gráfico",
     "shape": "design",
     "path": "cards-estaticos.html",
-    "description": "Artes para marcas, artistas, eventos e redes sociais."
+    "description": "Design gráfico e criação de artes para redes sociais, marcas, artistas e eventos em Juazeiro–BA e Petrolina–PE.",
+    "heading": "Design gráfico e artes para redes sociais",
+    "details": "Criamos peças para divulgar sua marca, evento, produto ou lançamento nas redes sociais. Confira os trabalhos de design gráfico e cards do portfólio. Para solicitar um projeto, conte o que será divulgado, onde a arte será usada e quais informações ela precisa apresentar.",
+    "seoTitle": "Design Gráfico em Juazeiro e Petrolina | Padrão MF"
   },
   {
     "id": "audiovisual",
@@ -127,7 +136,10 @@
     "label": "Audiovisual e transmissões",
     "shape": "landscape",
     "path": "audiovisual.html",
-    "description": "Shows, performances e transmissões ao vivo. Histórias em imagem e som."
+    "description": "Produção audiovisual, gravação de shows, cobertura de eventos e transmissão ao vivo em Juazeiro–BA e Petrolina–PE.",
+    "heading": "Produção audiovisual e transmissão ao vivo",
+    "details": "Realizamos gravação e produção de vídeos, cobertura audiovisual de eventos e transmissões ao vivo. Conheça os trabalhos de shows e performances abaixo. Para planejar seu projeto em Juazeiro ou Petrolina, informe a data, o local e o que precisa ser gravado ou transmitido.",
+    "seoTitle": "Audiovisual e Transmissão ao Vivo em Juazeiro e Petrolina | Padrão MF"
   },
   {
     "id": "drone",
@@ -135,7 +147,10 @@
     "label": "Imagens aéreas",
     "shape": "portrait",
     "path": "drone.html",
-    "description": "Imagens aéreas de eventos, paisagens e projetos sob novas perspectivas."
+    "description": "Filmagem com drone e captação de imagens aéreas de eventos, paisagens e projetos em Juazeiro–BA e Petrolina–PE.",
+    "heading": "Filmagem com drone e imagens aéreas",
+    "details": "Produzimos imagens aéreas para mostrar eventos, locais e projetos por outra perspectiva. Veja exemplos de filmagem com drone no portfólio. Converse conosco sobre o local da captação, a data e o uso das imagens para avaliarmos o atendimento e as condições de realização.",
+    "seoTitle": "Filmagem com Drone em Juazeiro e Petrolina | Padrão MF"
   },
   {
     "id": "social",
@@ -143,7 +158,10 @@
     "label": "Vídeos para redes sociais",
     "shape": "portrait",
     "path": "pocket-video.html",
-    "description": "Vídeos verticais que aproximam artistas, marcas e público."
+    "description": "Produção e edição de vídeos para Instagram, Reels e redes sociais de marcas e artistas em Juazeiro–BA e Petrolina–PE.",
+    "heading": "Produção de vídeos para redes sociais e Reels",
+    "details": "Criamos vídeos verticais e pocket videos para divulgar marcas, artistas e apresentações nas redes sociais. Confira os trabalhos abaixo e conte o que deseja comunicar, em qual plataforma vai publicar e se precisa de gravação, edição ou das duas etapas.",
+    "seoTitle": "Vídeos para Redes Sociais em Juazeiro e Petrolina | Padrão MF"
   }
 ];
   const PROJECTS = /* PROJECTS_START */

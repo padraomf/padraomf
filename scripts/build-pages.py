@@ -128,7 +128,9 @@ def structured_data(title,description,path,category,project,about):
     # Unknown addresses, awards, ratings and publication dates are deliberately omitted.
     url=urljoin(origin,'' if path=='index.html' else path)
     org_id=urljoin(origin,'#organizacao');site_id=urljoin(origin,'#site')
+    area=[{'@type':'City','name':'Juazeiro','containedInPlace':{'@type':'State','name':'Bahia'}},{'@type':'City','name':'Petrolina','containedInPlace':{'@type':'State','name':'Pernambuco'}}]
     org={'@type':'Organization','@id':org_id,'name':'Padrão MF','url':urljoin(origin,''),'logo':urljoin(origin,'assets/logo-oficial.png'),'description':'Design gráfico e produção audiovisual, com mais de 10 anos de experiência.','telephone':'+55-74-99920-4407','sameAs':['https://www.instagram.com/padraomf/','https://www.youtube.com/@Padr%C3%A3oMF']}
+    org['areaServed']=area
     webpage={'@type':'AboutPage' if about else 'CollectionPage' if category and not project else 'WebPage','@id':url+'#pagina','url':url,'name':title,'description':description,'inLanguage':'pt-BR','isPartOf':{'@id':site_id},'about':{'@id':org_id}}
     graph=[org,{'@type':'WebSite','@id':site_id,'url':urljoin(origin,''),'name':'Padrão MF','inLanguage':'pt-BR','publisher':{'@id':org_id}},webpage]
     crumbs=[{'@type':'ListItem','position':1,'name':'Padrão MF','item':urljoin(origin,'')}]
@@ -136,6 +138,8 @@ def structured_data(title,description,path,category,project,about):
         crumbs.append({'@type':'ListItem','position':2,'name':category['name'],'item':urljoin(origin,category['path'])})
         if not project:
             service={'@type':'Service','@id':url+'#servico','name':category['name'],'serviceType':category['label'],'description':description,'provider':{'@id':org_id},'url':url}
+            service['areaServed']=area
+            service['name']=category.get('heading',category['name'])
             graph.append(service);webpage['mainEntity']={'@id':service['@id']}
     if project:
         crumbs.append({'@type':'ListItem','position':3,'name':project['title'],'item':url})
@@ -156,12 +160,12 @@ def youtube_markup(p, hover=False):
 
 def page(main, service='', project=None, about=False):
     category = next((c for c in categories if c['id'] == service), None)
-    title = f'{project["title"]} — Padrão MF' if project else f'{category["name"]} — Padrão MF' if category else 'Padrão MF | Design Gráfico, Streaming e Audiovisual'
-    description = project['description'] if project else category['description'] if category else 'Design gráfico, motion, inteligência artificial, streaming, audiovisual, drone e pocket video. Conheça os trabalhos da Padrão MF.'
+    title = f'{project["title"]} — Padrão MF' if project else category.get('seoTitle',f'{category["name"]} — Padrão MF') if category else 'Padrão MF | Design e Audiovisual em Juazeiro e Petrolina'
+    description = project['description'] if project else category['description'] if category else 'Design gráfico, motion, vídeos com IA, produção audiovisual, transmissão ao vivo e drone. Atendimento em Juazeiro–BA e Petrolina–PE.'
     path = project_path(project) if project else category['path'] if category else 'index.html'
     if about:
         title='Sobre a Padrão MF'
-        description='Conheça a Padrão MF: mais de 10 anos de experiência em design gráfico, produção audiovisual e soluções visuais criativas.'
+        description='Conheça a Padrão MF: design gráfico, motion e produção audiovisual, com atendimento em Juazeiro–BA e Petrolina–PE e mais de 10 anos de experiência.'
         path='sobre.html'
     records = [project] if project else [p for p in projects if p['category']==service][:3] if category else []
     contact = whatsapp(category, project)
@@ -206,7 +210,7 @@ def page(main, service='', project=None, about=False):
   {software_strip()}
   <footer class="footer">
     <div class="footer-main"><a class="logo" href="index.html" aria-label="Padrão MF — início">{logo}</a><span class="footer-tagline">Sua ideia. Nosso padrão.</span><div class="footer-links"><a id="instagram-footer" href="https://www.instagram.com/padraomf/" target="_blank" rel="noopener noreferrer">{instagram}<span>Instagram</span></a><a id="youtube-footer" href="https://www.youtube.com/@Padr%C3%A3oMF" target="_blank" rel="noopener noreferrer" title="Canal oficial da Padrão MF">{youtube}<span>YouTube</span></a><a {contact}>WhatsApp ↗</a></div></div>
-    <div class="footer-bottom"><span>© <span id="year">2026</span> Padrão MF · Design, audiovisual e criatividade em um só padrão.</span><a class="back-top" href="#inicio">Voltar ao topo {arrow}</a></div>
+    <div class="footer-bottom"><span>© <span id="year">2026</span> Padrão MF · Atendimento em Juazeiro–BA e Petrolina–PE.</span><a class="back-top" href="#inicio">Voltar ao topo {arrow}</a></div>
   </footer>
   <dialog class="nav-dialog" id="menu-dialog" aria-label="Menu de serviços"><button class="dialog-close" data-close aria-label="Fechar menu">✕</button><div class="menu-scroll"><div class="menu-content"><div class="menu-brand"><a class="logo" href="index.html">{logo}</a><div class="eyebrow">Explore a Padrão MF</div></div><nav id="category-nav" aria-label="Navegação"><a href="index.html">Início <span>00</span></a><a href="sobre.html" id="about-nav">Sobre</a>{service_links(service)}</nav><a class="contact-button" {contact}>Vamos criar juntos ↗</a></div></div></dialog>
   <dialog class="project-dialog" id="project-dialog" data-format="portrait" aria-labelledby="project-title">
@@ -238,7 +242,7 @@ home = '''<main>
     <section class="showcase" id="showcase" aria-labelledby="showcase-title">
       <div class="showcase-window">
         <div class="showcase-track" id="showcase-track" aria-hidden="true"></div>
-        <div class="showcase-title-layer"><h1 class="showcase-caption" id="showcase-title"><span class="title-intro">Sua ideia.</span> <strong class="title-main">Nosso Padrão.</strong><span class="title-sub" style="display:block; font-size:clamp(0.9rem, 2vw, 1.2rem); margin-top:15px; font-weight:400; letter-spacing:0.05em; opacity:0.9;">Designer, Motion e Audio Visual!</span></h1></div>
+        <div class="showcase-title-layer"><h1 class="showcase-caption" id="showcase-title"><span class="title-intro">Sua ideia.</span> <strong class="title-main">Nosso Padrão.</strong><span class="title-sub" style="display:block; font-size:clamp(0.9rem, 2vw, 1.2rem); margin-top:15px; font-weight:400; letter-spacing:0.05em; opacity:0.9;">Design, motion e audiovisual</span></h1></div>
       </div>
       <div class="showcase-bottom"><button class="carousel-toggle" id="carousel-toggle" aria-controls="showcase-track" aria-pressed="false" aria-label="Pausar apresentação dos trabalhos"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14M16 5v14"/></svg><span>Pausar</span></button></div>
     </section>
@@ -259,8 +263,9 @@ for index, category in enumerate(categories, 1):
     <section class="service-heading" aria-labelledby="service-title">
       <a class="breadcrumb" href="index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m10 5-7 7 7 7M3 12h18"/></svg>Voltar ao portfólio</a>
       <div class="eyebrow">Serviço {index:02d} · Padrão MF</div>
-      <h1 id="service-title">{escape(category['name'])}</h1>
+      <h1 id="service-title">{escape(category.get('heading',category['name']))}</h1>
       <p>{escape(category['description'])}</p>
+      <p style="margin-top:16px">{escape(category.get('details',''))}</p>
       <div class="service-summary"><span class="service-count"><strong>{count:02d}</strong> trabalhos</span><a class="button button-green" {contact}>Vamos criar seu projeto {arrow}</a>{share_button(category=category)}</div>
     </section>
     <nav class="service-nav" id="service-nav" aria-label="Outros serviços">{service_links(category['id'])}</nav>
@@ -286,7 +291,7 @@ for p in projects:
       <nav class="service-nav" id="service-nav" aria-label="Outros serviços">{service_links(category['id'])}</nav>
     </main>'''
     (dist / project_path(p)).write_text(page(main, category['id'], p), encoding='utf-8')
-about_main='''<main id="portfolio" class="about-page"><a class="breadcrumb" href="index.html">← Voltar ao portfólio</a><section class="about-intro"><div class="eyebrow">Design + Audiovisual</div><h1>Sobre a<br><strong>Padrão MF.</strong></h1><span class="about-experience">Mais de 10 anos transformando ideias.</span></section><div class="about-copy"><p>A Padrão MF é uma empresa especializada em design gráfico e produção audiovisual, com mais de 10 anos de experiência no mercado. Trabalhamos com criação de artes, motion design, edição de vídeos, inteligência artificial e soluções visuais para empresas, marcas, artistas e eventos.</p><p>Realizamos gravação e produção de vídeos promocionais, vídeos institucionais e corporativos, cobertura audiovisual de eventos, produção de EPs visuais e conteúdos para redes sociais. Também desenvolvemos projetos criativos utilizando inteligência artificial para potencializar a qualidade, inovação e impacto de cada produção.</p><p>Na Padrão MF, transformamos ideias em conteúdos visuais profissionais, criativos e estratégicos, ajudando marcas, empresas e artistas a se destacarem através do design e do audiovisual.</p></div><a class="button button-green" ''' + whatsapp() + '''>Vamos conversar sobre seu projeto ↗</a></main>'''
+about_main='''<main id="portfolio" class="about-page"><a class="breadcrumb" href="index.html">← Voltar ao portfólio</a><section class="about-intro"><div class="eyebrow">Design + Audiovisual</div><h1>Sobre a<br><strong>Padrão MF.</strong></h1><span class="about-experience">Mais de 10 anos transformando ideias.</span></section><div class="about-copy"><p>A Padrão MF é uma empresa especializada em design gráfico e produção audiovisual, com mais de 10 anos de experiência no mercado. Trabalhamos com criação de artes, motion design, edição de vídeos, inteligência artificial e soluções visuais para empresas, marcas, artistas e eventos.</p><p>Realizamos gravação e produção de vídeos promocionais, vídeos institucionais e corporativos, cobertura audiovisual de eventos, produção de EPs visuais e conteúdos para redes sociais. Também desenvolvemos projetos criativos utilizando inteligência artificial para potencializar a qualidade, inovação e impacto de cada produção.</p><p>Atendemos em Juazeiro, na Bahia, e Petrolina, em Pernambuco, com design gráfico, motion design, produções com inteligência artificial, audiovisual, transmissões ao vivo, imagens com drone e vídeos para redes sociais. Na Padrão MF, transformamos ideias em conteúdos visuais profissionais, criativos e estratégicos para marcas, empresas e artistas.</p></div><a class="button button-green" ''' + whatsapp() + '''>Vamos conversar sobre seu projeto ↗</a></main>'''
 (dist / 'sobre.html').write_text(page(about_main,about=True), encoding='utf-8')
 # Preserve previously issued addresses while linking new pages by their subjects.
 for p in projects:
