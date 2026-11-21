@@ -30,12 +30,16 @@ class Metadata(HTMLParser):
         self.ids = []
         self.h1_count = 0
         self.resources = []
+        self.videos = []
+        self.embeds = []
     def handle_starttag(self, tag, attrs):
         attrs = dict(attrs)
         if attrs.get('id'): self.ids.append(attrs['id'])
         if tag == 'h1': self.h1_count += 1
         if tag == 'a': self.links.append(attrs.get('href',''))
         if tag == 'img': self.images.append(attrs)
+        if tag == 'video' and attrs.get('src'): self.videos.append(attrs)
+        if tag == 'iframe' and attrs.get('src'): self.embeds.append(attrs['src'])
         if tag == 'script' and attrs.get('src'): self.resources.append(attrs['src'])
         if tag == 'link' and attrs.get('rel')=='stylesheet': self.resources.append(attrs.get('href',''))
         if tag == 'meta':
@@ -57,6 +61,8 @@ def validate_schema(value, page):
 expected_urls = set()
 titles = set()
 link_graph = {}
+project_media = {}
+project_paths = {project['path'] for project in projects}
 expected_title_count = len(pages)
 for page in pages:
     html = (root / page).read_text(encoding='utf-8')
@@ -79,6 +85,8 @@ for page in pages:
     titles.add(title)
     assert parsed.h1_count == 1, (page,'h1',parsed.h1_count)
     assert len(parsed.ids)==len(set(parsed.ids)), (page,'ids repetidos')
+    if page in project_paths:
+        project_media[url] = (parsed.videos, parsed.embeds)
     targets=[]
     for href in parsed.links:
         address=urlparse(href)
@@ -106,11 +114,35 @@ for page in pages:
 
 
 sitemap = ET.parse(root / 'sitemap.xml')
-ns = {'s': 'http://www.sitemaps.org/schemas/sitemap/0.9'}
+ns = {
+    's': 'http://www.sitemaps.org/schemas/sitemap/0.9',
+    'video': 'http://www.google.com/schemas/sitemap-video/1.1',
+    'image': 'http://www.google.com/schemas/sitemap-image/1.1',
+}
 sitemap_urls = [node.text for node in sitemap.findall('s:url/s:loc', ns)]
 assert len(sitemap_urls) == len(expected_urls), 'O sitemap tem páginas extras ou repetidas.'
 assert set(sitemap_urls) == expected_urls, 'O sitemap não corresponde às páginas atuais.'
 assert not any('/_/view/prefs' in url or '/projeto-' in url for url in sitemap_urls)
+for entry in sitemap.findall('s:url', ns):
+    url = entry.findtext('s:loc', namespaces=ns)
+    if url not in project_media:
+        continue
+    videos, embeds = project_media[url]
+    video = entry.find('video:video', ns)
+    assert (video is not None) == bool(videos or embeds), (url, 'vídeo ausente ou indevido no sitemap')
+    if video is None:
+        continue
+    thumbnail = video.findtext('video:thumbnail_loc', namespaces=ns)
+    assert urlparse(thumbnail).scheme == 'https', (url, 'miniatura do sitemap inválida')
+    image = entry.findtext('image:image/image:loc', namespaces=ns)
+    if image:
+        assert thumbnail == image, (url, 'miniatura diferente da imagem no sitemap')
+    if videos:
+        assert len(videos) == 1, (url, 'mais de um vídeo principal')
+        assert thumbnail == urljoin(url, videos[0]['poster']), (url, 'miniatura diferente do poster')
+        assert video.findtext('video:content_loc', namespaces=ns) == urljoin(url, videos[0]['src']), (url, 'arquivo de vídeo diferente do HTML')
+    else:
+        assert len(embeds) == 1 and video.findtext('video:player_loc', namespaces=ns) == embeds[0], (url, 'player diferente do HTML')
 robots = (root / 'robots.txt').read_text(encoding='utf-8')
 assert f'Sitemap: {origin}sitemap.xml' in robots
 assert 'Disallow: /\n' not in robots
@@ -133,7 +165,10 @@ for project in projects:
     alias='/projeto-'+project['id']+'.html'
     matches=[r for r in redirects if re.fullmatch(r['src'],alias)]
     assert len(matches)==1 and matches[0]['headers']['Location']==urljoin(origin,project['path']), ('redirecionamento',alias)
-assert len(redirects)==len(projects)+1, 'Redirecionamentos fora de sincronia.'
+home_redirects = [r for r in redirects if r['headers']['Location'] == origin]
+for alias in ('/index.html', '/inicio', '/inicio/', '/inicio/index.html', '/início', '/início/', '/início/index.html', '/in%C3%ADcio', '/in%c3%adcio/index.html'):
+    assert sum(bool(re.fullmatch(r['src'], alias)) for r in home_redirects) == 1, ('redirecionamento da home', alias)
+assert len(redirects)==len(projects)+len(home_redirects), 'Redirecionamentos fora de sincronia.'
 assert any(r.get('status')==404 and r.get('dest')=='/404.html' for r in routing['routes']), 'Preserve a resposta HTTP 404.'
 error=Metadata();error.feed((root/'404.html').read_text(encoding='utf-8'))
 assert 'noindex' in error.meta.get('robots',[''])[0] and origin+'404.html' not in expected_urls

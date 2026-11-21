@@ -160,9 +160,13 @@ def software_strip():
     items = ''.join(f'<div class="software-item {item["slug"]}"><img src="{item["path"]}" alt="" width="44" height="44" loading="lazy"><span>{escape(item["name"])}</span></div>' for item in software)
     return f'<section class="software-section" aria-labelledby="software-title"><div class="software-heading"><h2 id="software-title">Softwares que dominamos</h2><button id="software-toggle" class="carousel-toggle" aria-controls="software-track" aria-pressed="false">Pausar</button></div><div class="software-window"><div id="software-track" class="software-track"><div class="software-group">{items}</div><div class="software-group" aria-hidden="true">{items}</div></div></div></section>'
 
-def youtube_markup(p, hover=False):
+def youtube_embed_url(p):
     embed='https://www.youtube-nocookie.com/embed/'+p['youtubeId']+'?enablejsapi=1&autoplay=0&mute=1&playsinline=1&rel=0&hl=pt-BR&controls=1'
     if origin:embed+='&origin='+urlencode({'x':origin.rstrip('/')})[2:]
+    return embed
+
+def youtube_markup(p, hover=False):
+    embed=youtube_embed_url(p)
     return f'<div class="youtube-shell" data-youtube="{p["youtubeId"]}" data-title="{escape(p["title"],quote=True)}" data-hover="{str(hover).lower()}"><iframe src="{escape(embed,quote=True)}" title="{escape(p["title"],quote=True)}" loading="lazy" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>'
 
 def page(main, service='', project=None, about=False, error=False):
@@ -344,8 +348,8 @@ if origin:
             ET.SubElement(image,'{'+image_ns+'}loc').text=urljoin(origin,image_for(work))
         if work and (work.get('video') or work.get('youtubeId')):
             video=ET.SubElement(node,'{'+vn+'}video')
-            for key,value in [('thumbnail_loc',urljoin(origin,share_images[work['id']][0])),('title',work['title']),('description',work['description'])]:ET.SubElement(video,'{'+vn+'}'+key).text=value
-            if work.get('youtubeId'):ET.SubElement(video,'{'+vn+'}player_loc').text='https://www.youtube.com/embed/'+work['youtubeId']
+            for key,value in [('thumbnail_loc',urljoin(origin,image_for(work))),('title',work['title']),('description',work['description'])]:ET.SubElement(video,'{'+vn+'}'+key).text=value
+            if work.get('youtubeId'):ET.SubElement(video,'{'+vn+'}player_loc').text=youtube_embed_url(work)
             else:ET.SubElement(video,'{'+vn+'}content_loc').text=urljoin(origin,work['video'])
     ET.ElementTree(tree).write(dist/'sitemap.xml',encoding='utf-8',xml_declaration=True)
     robots+='\nSitemap: '+urljoin(origin,'sitemap.xml')+'\n'
@@ -356,8 +360,9 @@ else:
 # Keep server redirects in sync with the public project list.
 routing_file=root/'vercel.json'
 routing=json.loads(routing_file.read_text(encoding='utf-8')) if routing_file.exists() else {'routes':[]}
-routes=[r for r in routing.get('routes',[]) if not r.get('src','').startswith('/projeto-') and r.get('src')!='/index\\.html']
-redirects=[{'src':'/index\\.html','status':301,'headers':{'Location':origin}}]
+home_redirects=['/index\\.html', r'/in(?:i|í|%[cC]3%[aA][dD])cio(?:/index\.html|/)?']
+routes=[r for r in routing.get('routes',[]) if not r.get('src','').startswith('/projeto-') and r.get('src') not in home_redirects]
+redirects=[{'src':path,'status':301,'headers':{'Location':origin}} for path in home_redirects]
 redirects += [{'src':'/projeto-'+re.escape(p['id'])+'\\.html','status':301,'headers':{'Location':urljoin(origin,p['path'])}} for p in projects]
 position=next((i for i,r in enumerate(routes) if r.get('handle')=='filesystem'),len(routes))
 routing['routes']=routes[:position]+redirects+routes[position:]

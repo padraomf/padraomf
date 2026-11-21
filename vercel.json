@@ -45,6 +45,13 @@
       }
     },
     {
+      "src": "/in(?:i|í|%[cC]3%[aA][dD])cio(?:/index\\.html|/)?",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.padraomf.com/"
+      }
+    },
+    {
       "src": "/projeto-proj\\-1790198958182\\.html",
       "status": 301,
       "headers": {
