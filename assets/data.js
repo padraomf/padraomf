@@ -232,7 +232,7 @@
     "title": "Semanal Desejo de Menina",
     "asset": "asset-1790198958182",
     "type": "Motion",
-    "description": "Agenda semanal de shows de Desejo de Menina usando AfterEcefs + IA",
+    "description": "Agenda semanal de shows de Desejo de Menina usando After Effects + IA",
     "video": "assets/p-1790198958182.mp4",
     "preview": "assets/p-1790198958182-preview.mp4",
     "demo": false,
@@ -797,7 +797,7 @@
   {
     "id": "motion-agenda-16-janeiro",
     "category": "motion",
-    "title": "Agenda da semana · 16 de janeiro",
+    "title": "Animação para agenda de shows · 16 de janeiro",
     "asset": "motion-agenda-16-janeiro",
     "type": "Agenda animada",
     "description": "Divulgação da programação semanal com animação de textos e elementos gráficos.",
@@ -809,7 +809,7 @@
   {
     "id": "motion-agenda-11-junho",
     "category": "motion",
-    "title": "Agenda semanal · 11 de junho",
+    "title": "Animação para agenda de shows · 11 de junho",
     "asset": "motion-agenda-11-junho",
     "type": "Agenda animada",
     "description": "Motion para apresentar a agenda semanal em formato vertical para as redes sociais.",
@@ -857,7 +857,7 @@
   {
     "id": "motion-quijingue",
     "category": "motion",
-    "title": "Hoje · Quijingue, BA",
+    "title": "Chamada de show em Quijingue, BA",
     "asset": "motion-quijingue",
     "type": "Chamada de evento",
     "description": "Chamada animada para apresentação em Quijingue, com as informações do evento em destaque.",
